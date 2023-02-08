@@ -27,3 +27,5 @@ Produto.prototype.listagem = async (req) => {
         })
         })
     }
+
+    export default Produto;
