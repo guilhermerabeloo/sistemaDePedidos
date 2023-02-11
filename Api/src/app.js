@@ -1,6 +1,7 @@
 import express from "express";
 import dotev from "dotenv";
 import pg from "pg";
+import routes from "./routes/index.js";
 
 const { Pool } = pg
 
@@ -41,6 +42,6 @@ global.pg.on('connect', (client) => {
 
 const app = express();
 app.use(express.json());
-//routes(app)
+routes(app)
 
 export default app;
