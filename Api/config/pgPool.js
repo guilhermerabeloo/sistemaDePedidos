@@ -12,8 +12,8 @@ const dbConfig = {
     password: env.PG_PWD,
     port: env.PG_PORT,
     max: 10,
-    idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 30000,
+    idleTimeoutMillis: 5000,
+    connectionTimeoutMillis: 5000,
 };
 
 const pool = new Pool(dbConfig);
@@ -60,7 +60,6 @@ async function pgPool(sqlQuery, values) {
                             reject(e);
                         })
                         .finally(() => {
-                            console.log("Passei aqui");
                             client.release();
                         })
                 }
