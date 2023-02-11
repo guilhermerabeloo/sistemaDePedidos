@@ -1,5 +1,5 @@
 function Produto() {}
-import pgPool from "./config/pgPool.js"
+import pgPool from "../../config/pgPool.js"
 
 Produto.prototype.listagem = async (req) => {
     return new Promise((resolve, reject) => {
@@ -11,7 +11,7 @@ Produto.prototype.listagem = async (req) => {
             if (res) {
                 result.code = 200;
                 result.data = res.rows;
-                msg = true;
+                result.msg = true;
                 resolve(result);
             }
         })
