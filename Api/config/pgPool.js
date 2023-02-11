@@ -1,5 +1,7 @@
-import { Client, Pool } from "pg";
+import pg from "pg";
 import dotenv from 'dotenv';
+
+const { Pool } = pg
 
 const env = dotenv.config().parsed;
 
