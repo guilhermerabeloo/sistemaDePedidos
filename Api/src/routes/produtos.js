@@ -1,10 +1,10 @@
 import express from "express";
-import listagemController from "../controllers/produtos.js";
+import ProdutoController from "../controllers/produtos.js";
 
 const router = express.Router();
 
 router
-    .get("/produtos", listagemController)
+    .get("/produtos", ProdutoController.listagemController)
 
 export default router;
 
