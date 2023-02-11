@@ -1,13 +1,17 @@
-export default listagem = async (application, req, res) => {
-    const newsModel = new application.src.models.listagem();
+import Produto from "../models/produtos.js";
+
+const listagemController = async (req, res) => {
+    const newsModel = new Produto();
 
     await newsModel
         .listagem(req)
         .then((resultado) => {
-            res.status(resultado.code).send(resultado);
+            res.status(200).send(resultado);
         })
         .catch((err) => {
             console.log(err);
-            res.status(err.code).send(err);
+            res.status(500).send(err);
         })
 };
+
+export default listagemController;
