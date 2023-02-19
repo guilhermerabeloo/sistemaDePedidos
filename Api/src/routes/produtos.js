@@ -6,6 +6,7 @@ const router = express.Router();
 router
     .get("/produtos", ProdutoController.listagemDeProdutos)
     .post("/cadastraProduto", ProdutoController.cadastroDeProdutos)
+    .post("/cadastraCategoria", ProdutoController.cadastroDeCategorias)
 
 export default router;
 

@@ -65,4 +65,42 @@ Produto.prototype.cadastraProduto = async (req, res) => {
     })
 }
 
+Produto.prototype.cadastraCategoria = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        pgPool(
+            `
+            INSERT INTO categorias
+                (categoria, sigla)
+            VALUES
+                ($1, $2)
+            `,
+            [
+                req.body.Categoria,
+                req.body.Sigla,
+            ]
+        )
+        .then((res) => {
+            const result = {};
+            if (res) {
+                result.code = 200;
+                result.data = "Categoria cadastrada com sucesso!";
+                result.msg = true;
+                resolve(result);
+            }
+        })
+        .catch((res) => {
+            console.log(err);
+            const result = {
+                code: 500,
+                data: "Erro ao cadastrar categoria",
+                msg: false,
+                error: err,
+            }
+            reject(result)
+        })
+    })
+
+
+}
+
 export default Produto;

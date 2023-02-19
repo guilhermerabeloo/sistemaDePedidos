@@ -2,9 +2,9 @@ import Produto from "../models/produtos.js";
 
 class ProdutoController {
     static listagemDeProdutos = async (req, res) => {
-        const newsModel = new Produto();
+        const produtoModel = new Produto();
 
-        await newsModel
+        await produtoModel
             .listaProdutos(req)
             .then((resultado) => {
                 res.status(200).send(resultado.toJSON());
@@ -16,10 +16,23 @@ class ProdutoController {
     }
 
     static cadastroDeProdutos = async (req, res) => {
-        const newsModel = new Produto();
+        const produtoModel = new Produto();
 
-        await newsModel
+        await produtoModel
             .cadastraProduto(req)
+            .then((resultado) => {
+                res.status(200).send(resultado.toJSON())
+            })
+            .catch((err) => {
+                res.status(500).send(err)
+            })
+    }
+
+    static cadastroDeCategorias = async (req, res) => {
+        const produtoModel = new Produto()
+
+        await produtoModel
+            .cadastraCategoria(req)
             .then((resultado) => {
                 res.status(200).send(resultado.toJSON())
             })
