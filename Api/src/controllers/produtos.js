@@ -40,6 +40,20 @@ class ProdutoController {
                 res.status(500).send(err)
             })
     }
+
+    static cadastroDeSituacoesProduto = async(req, res) => {
+        const produtoModel = new Produto()
+    
+        await produtoModel
+            .cadastroSituacaoProduto(req)
+            .then((resultado) => {
+                res.status(200).send(resultado.toJSON())
+            })
+            .catch((err) => {
+                res.status(500).send(err)
+            })
+    }
 }
+
 
 export default ProdutoController;

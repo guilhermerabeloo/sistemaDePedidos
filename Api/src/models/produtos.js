@@ -91,16 +91,51 @@ Produto.prototype.cadastraCategoria = async (req, res) => {
         .catch((res) => {
             console.log(err);
             const result = {
+                hint: "Erro interno",
                 code: 500,
-                data: "Erro ao cadastrar categoria",
                 msg: false,
                 error: err,
             }
             reject(result)
         })
     })
+}
 
-
+Produto.prototype.cadastroSituacaoProduto = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        pgPool(
+            `
+            INSERT INTO sit_produtos
+                (dataSituacao, preco, idProduto)
+            VALUES
+                ($1, $2, $3)
+            `
+            , 
+            [
+                req.body.Data,
+                req.body.Preco,
+                req.body.IdProduto,
+            ]
+        )
+        .then((res) => {
+            const result = {};
+            if (res) {
+                result.code = 200;
+                result.data = "Situacao Cadastrada com sucesso!";
+                result.msg = true;
+                resolve(result);
+            }
+        })
+        .catch((res) => {
+            const result = {
+                hint: "Erro interno",
+                code: 500,
+                msg: false,
+                error: err,
+            }
+            reject(result);
+        })
+    })
 }
 
 export default Produto;
