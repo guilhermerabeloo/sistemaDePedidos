@@ -45,7 +45,35 @@ class ProdutoController {
         const produtoModel = new Produto()
     
         await produtoModel
-            .cadastroSituacaoProduto(req)
+            .cadastraSituacaoProduto(req)
+            .then((resultado) => {
+                res.status(200).send(resultado.toJSON())
+            })
+            .catch((err) => {
+                res.status(500).send(err)
+            })
+    }
+
+    static cadastrarIngrediente = async(req, res) => {
+        const produtoModel = new Produto()
+            
+        await produtoModel
+            .cadastraIngrediente(req)
+            .then((resultado) => {
+                res.status(200).send(resultado.toJSON())
+            })
+            .catch((err) => {
+                res.status(500).send(err)
+            })
+
+
+    }
+
+    static relacionarIngredienteProduto = async(req, res) => {
+        const produtoModel = new Produto()
+        
+        await produtoModel
+            .associaIngrediente(req)
             .then((resultado) => {
                 res.status(200).send(resultado.toJSON())
             })
@@ -54,6 +82,7 @@ class ProdutoController {
             })
     }
 }
+
 
 
 export default ProdutoController;

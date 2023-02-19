@@ -101,7 +101,7 @@ Produto.prototype.cadastraCategoria = async (req, res) => {
     })
 }
 
-Produto.prototype.cadastroSituacaoProduto = async (req, res) => {
+Produto.prototype.cadastraSituacaoProduto = async (req, res) => {
     return new Promise((resolve, reject) => {
         pgPool(
             `
@@ -133,6 +133,73 @@ Produto.prototype.cadastroSituacaoProduto = async (req, res) => {
                 msg: false,
                 error: err,
             }
+            reject(result);
+        })
+    })
+}
+
+Produto.prototype.cadastraIngrediente = async(req, res) => {
+    return new Promise((resolve, reject) => {
+        pgPool(
+            `
+            INSERT INTO ingredientes
+                (ingrediente)
+            VALUES
+                ($1)
+            `,
+            [
+                req.body.Ingrediente,
+            ]
+        )
+        .then((res) => {
+            const result = {};
+
+            if (res) {
+                result.code = 200;
+                result.data = "Ingrediente cadastrado com sucesso!";
+                result.msg = true;
+                resolve(result)
+            }
+        })
+        .catch((res) => {
+            const result = {
+                hint: "Erro interno",
+                code: 500,
+                msg: false,
+                error: err
+            };
+            reject(result);
+        })
+    })
+}
+
+Produto.prototype.associaIngrediente = async(req, res) => {
+    const idProduto = req.params.idProduto;
+    const idIngrediente = req.params.idIngrediente;
+
+    return new Promise((resolve, reject) => {
+        pgPool(
+            `
+            INSERT INTO ingrediente_produto
+            VALUES
+                (${idProduto}, ${idIngrediente})
+            `
+        )
+        .then((res) => {
+            const result = {};
+            if (res) {
+                result.code = 200;
+                result.data = "Ingrediente associado com sucesso!"
+                result.msg = true;
+                resolve(result)
+            }
+        })
+        .catch((res) => {
+            const result = {
+                hint: "Erro interno",
+                code: 500,
+                msg: false,
+            };
             reject(result);
         })
     })
