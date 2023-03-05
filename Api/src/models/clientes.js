@@ -1,8 +1,8 @@
 import pgPool from "../../config/pgPool.js";
 
-function Cliente()
+function Cliente() {}
 
-Cliente.prototype.listaClientes = async ((req, res) => {
+Cliente.prototype.listaClientes = async (req, res) => {
     return new Promise((resolve, reject) => {
         pgPool(
             'SELECT * FROM clientes'
@@ -27,6 +27,6 @@ Cliente.prototype.listaClientes = async ((req, res) => {
             reject(result)
         })
     })
-})
+}
 
 export default Cliente;

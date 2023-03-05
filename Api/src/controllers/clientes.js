@@ -1,7 +1,7 @@
-import Cliente from "../models/clientes";
+import Cliente from "../models/clientes.js";
 
 class ClienteController {
-    static listagemClientes = async (req, res) => {
+    static listagemDeClientes = async (req, res) => {
         const clienteModel = new Cliente();
 
         await clienteModel
