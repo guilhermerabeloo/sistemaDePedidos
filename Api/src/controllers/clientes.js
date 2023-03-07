@@ -7,11 +7,25 @@ class ClienteController {
         await clienteModel
             .listaClientes(req)
             .then((resultado) => {
-                res.code(200).send(resultado.toJason())
+                res.status(200).send(resultado.toJason())
             })
             .catch((err) => {
                 console.log(err)
-                res.code(500).send({error: err})
+                res.status(500).send(err)
+            })
+    }
+
+    static listagemDeBairros = async (req, res) => {
+        const clienteModel = new Cliente();
+
+        await clienteModel
+            .listaBairros(req)
+            .then((resultado) => {
+                res.status(200).send(resultado.toJASON())
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500).send(err)
             })
     }
 }

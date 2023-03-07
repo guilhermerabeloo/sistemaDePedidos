@@ -29,4 +29,30 @@ Cliente.prototype.listaClientes = async (req, res) => {
     })
 }
 
+Cliente.prototype.listaBairros = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        pgPool(
+            `SELECT * FROM bairros`
+        )
+        .then((req) => {
+            const result = {};
+            if(req) {
+                result.code = 200;
+                result.data = req.rows;
+                result.msg = true;
+                resolve(result)
+            };
+        })
+        .catch((req) => {
+            const result = {
+                hint: "Erro interno",
+                code: 200,
+                msg: false,
+                error: err,
+            };
+            reject(result);
+        })
+    })
+}
+
 export default Cliente;
