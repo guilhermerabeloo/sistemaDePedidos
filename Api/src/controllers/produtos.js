@@ -7,7 +7,7 @@ class ProdutoController {
         await produtoModel
             .listaProdutos(req)
             .then((resultado) => {
-                res.status(200).send(resultado.toJSON());
+                res.status(200).send(resultado);
             })
             .catch((err) => {
                 console.log(err);

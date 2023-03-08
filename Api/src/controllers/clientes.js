@@ -15,13 +15,26 @@ class ClienteController {
             })
     }
 
+    static cadastraClientes = async (req, res) => {
+        const clienteModel = new Cliente();
+
+        await clienteModel
+            .then((resultado) => {
+                res.status(200).send(resultado)
+            })
+            .catch((err) => {
+                console.log(err)
+                res.status(500).send(err)
+            })
+    }
+
     static listagemDeBairros = async (req, res) => {
         const clienteModel = new Cliente();
 
         await clienteModel
             .listaBairros(req)
             .then((resultado) => {
-                res.status(200).send(resultado.toJASON())
+                res.status(200).send(resultado)
             })
             .catch((err) => {
                 console.log(err);
