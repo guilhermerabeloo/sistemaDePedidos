@@ -28,6 +28,20 @@ class ClienteController {
                 res.status(500).send(err)
             })
     }
+
+    static cadastroDeBairros = async (req, res) => {
+        const clienteModel = new Cliente();
+
+        await clienteModel
+            .cadastraBairro(req)
+            .then((resultado) => {
+                res.status(200).send(resultado.toJASON())
+            })
+            .catch((err) => {
+                console.log(err)
+                res.status(500).send(err)
+            })
+    }
 }
 
 export default ClienteController;

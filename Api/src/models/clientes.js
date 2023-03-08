@@ -1,3 +1,4 @@
+import { Client } from "pg";
 import pgPool from "../../config/pgPool.js";
 
 function Cliente() {}
@@ -51,6 +52,41 @@ Cliente.prototype.listaBairros = async (req, res) => {
                 error: err,
             };
             reject(result);
+        })
+    })
+}
+
+Cliente.prototype.cadastraBairro = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        pgPool(
+            `
+            INSERT INTO bairros
+            (bairro, taxaEntrega)
+            VALUES
+            ($1, $2)
+            `,
+            [
+                req.body.bairro,
+                req.body.taxaEntrega
+            ]
+        )
+        .then((req, res) => {
+            const result = {}
+            if(req) {
+                result.code = 200;
+                result.data = req.rows;
+                result.msg = true;
+                resolve(result)
+            }
+        })
+        .catch((err) => {
+            const result = {
+                hitn: "Erro interno",
+                code: 200,
+                msg: false,
+                error: err,
+            }
+            reject(result)
         })
     })
 }
