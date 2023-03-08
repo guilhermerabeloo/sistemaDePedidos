@@ -42,10 +42,10 @@ Cliente.prototype.cadastraCliente = async (req, res) => {
             req.body.Telefone,
             req.body.Endereco,
             req.body.Numero,
-            req.body.idBairro,
-            req.body.DataCadastro,
+            req.body.IdBairro,
+            new Date,
             req.body.Sexo,
-            req.body.dtNascimento,
+            req.body.DtNascimento,
         ]
         )
         .then((req, res) => {

@@ -19,6 +19,7 @@ class ClienteController {
         const clienteModel = new Cliente();
 
         await clienteModel
+            .cadastraCliente(req)
             .then((resultado) => {
                 res.status(200).send(resultado)
             })
