@@ -48,7 +48,7 @@ Cliente.prototype.cadastraCliente = async (req, res) => {
             req.body.DtNascimento,
         ]
         )
-        .then((req, res) => {
+        .then((req) => {
             const result = {};
 
             if(req) {
