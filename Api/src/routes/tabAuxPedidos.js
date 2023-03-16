@@ -5,5 +5,6 @@ const router = express.Router()
 
 router
     .post("/cadastraAtendente", AuxPedidosController.cadastroDeAtendente)
+    .delete("/excluiAtendente/:id", AuxPedidosController.exclusaoDeAtendente)
 
 export default router;

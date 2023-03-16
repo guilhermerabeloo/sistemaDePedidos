@@ -15,10 +15,9 @@ AuxPedidos.prototype.cadastraAtendente = async (req, res) => {
             new Date,
         ]
         )
-        .then((req) => {
+        .then((res) => {
             const result = {};
-
-            if(req) {
+            if(res) {
                 result.code = 200;
                 result.msg = true;
                 result.data = "Atendente cadastrado com sucesso";
@@ -38,5 +37,35 @@ AuxPedidos.prototype.cadastraAtendente = async (req, res) => {
     })
 }
 
+AuxPedidos.prototype.deletaAtendente = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        const idAtendente = req.params.id
+        pgPool(`
+            DELETE FROM atendentes
+            WHERE
+                idatendente = ${idAtendente}
+        `)
+        .then((res) => {
+            const result = {};
+            if(res) {
+                result.code = 200;
+                result.data = "Cliente excluído com sucesso";
+                result.msg = true;
+                console.log(result)
+                resolve(result);
+            }
+        })
+        .catch((err) => {
+            console.log(err)
+            const result = {
+                code: 500,
+                hint: "Erro interno",
+                msg: false,
+                error: err,
+            };
+            reject(result);
+        })
+    })
+}
 
 export default AuxPedidos;
