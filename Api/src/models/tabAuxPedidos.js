@@ -68,4 +68,38 @@ AuxPedidos.prototype.deletaAtendente = async (req, res) => {
     })
 }
 
+AuxPedidos.prototype.cadastraEntregador = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        pgPool(`
+            INSERT INTO entregadores
+            (entregador, dataCadastro)
+            VALUES
+            ($1, $2)
+        `,
+        [
+            req.body.Entregador,
+            new Date,
+        ]
+        )
+        .then((res) => {
+            const result = {};
+            if(res) {
+                result.code = 200;
+                result.data = "Entregador cadastrado com sucesso";
+                result.msg = true;
+                resolve(result);
+            }
+        })
+        .catch((err) => {
+            const result = {
+                code: 500,
+                hint: "Erro interno",
+                msg: false,
+                error: err,
+            };
+            reject(result);
+        })
+    })
+}
+
 export default AuxPedidos;
