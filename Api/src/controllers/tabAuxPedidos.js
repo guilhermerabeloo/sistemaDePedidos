@@ -1,4 +1,4 @@
-import AuxPedidos from "../models/tabAuxPedidos";
+import AuxPedidos from "../models/tabAuxPedidos.js";
 
 class AuxPedidosController {
     static cadastroDeAtendente = async (req, res) => {

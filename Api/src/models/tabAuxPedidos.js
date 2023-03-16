@@ -1,4 +1,4 @@
-import pgPool from "../../config/pgPool";
+import pgPool from "../../config/pgPool.js";
 
 function AuxPedidos(){}
 
@@ -21,13 +21,14 @@ AuxPedidos.prototype.cadastraAtendente = async (req, res) => {
             if(req) {
                 result.code = 200;
                 result.msg = true;
-                result.data = res.rows;
+                result.data = "Atendente cadastrado com sucesso";
                 resolve(result);
             };
         })
         .catch((err) => {
+            console.log(err)
             const result = {
-                code: 200,
+                code: 500,
                 hint: "Erro interno",
                 msg: false,
                 error: err,

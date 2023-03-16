@@ -56,7 +56,7 @@ Produto.prototype.cadastraProduto = async (req, res) => {
                 console.log(err)
                 const result = {
                     hint: 'Erro interno',
-                    code: 200,
+                    code: 500,
                     msg: false,
                     error: err,
                 }
