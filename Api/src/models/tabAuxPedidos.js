@@ -102,4 +102,35 @@ AuxPedidos.prototype.cadastraEntregador = async (req, res) => {
     })
 }
 
+AuxPedidos.prototype.deletaEntregador = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        const idEntregador = req.params.id
+        pgPool(`
+            DELETE FROM entregadores
+            WHERE
+                identregador = ${idEntregador}
+        `)
+        .then((res) => {
+            const result = {}
+            if(res) {
+                result.code = 200;
+                result.data = "Entregador excluido com sucesso";
+                result.msg = true;
+                console.log(result);
+                resolve(result);
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+            const result = {
+                code: 500,
+                hint: "Erro interno",
+                msg: false,
+                error: err,
+            };
+            reject(result);
+        })
+    })
+}
+
 export default AuxPedidos;

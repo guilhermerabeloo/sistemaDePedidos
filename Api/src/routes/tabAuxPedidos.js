@@ -7,5 +7,6 @@ router
     .post("/cadastraAtendente", AuxPedidosController.cadastroDeAtendente)
     .delete("/excluiAtendente/:id", AuxPedidosController.exclusaoDeAtendente)
     .post("/cadastraEntregador", AuxPedidosController.cadastroDeEntregador)
+    .delete("/excluiEntregador/:id", AuxPedidosController.exclusaoDeEntregador)
 
 export default router;

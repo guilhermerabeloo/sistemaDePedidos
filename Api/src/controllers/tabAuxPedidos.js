@@ -30,7 +30,7 @@ class AuxPedidosController {
     }
 
     static cadastroDeEntregador = async (req, res) => {
-        const entregadorModel = new AuxPedidos;
+        const entregadorModel = new AuxPedidos();
 
         await entregadorModel
             .cadastraEntregador(req)
@@ -40,6 +40,20 @@ class AuxPedidosController {
             .catch((err) => {
                 console.log(err)
                 res.status(500).send(err)
+            })
+    }
+
+    static exclusaoDeEntregador = async (req, res) => {
+        const entregadorModel = new AuxPedidos();
+
+        await entregadorModel
+            .deletaEntregador(req)
+            .then((resultado) => {
+                res.status(200).send(resultado)
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500).send(err);
             })
     }
 }
