@@ -1,7 +1,8 @@
 import express  from "express";
 import produtos from "./produtos.js";
 import clientes from "./clientes.js";
-import tabAuxPedidos from "./tabAuxPedidos.js"
+import tabAuxPedidos from "./tabAuxPedidos.js";
+import pedido from "./pedidos.js";
 
 const routes = (app) => {
     app.route('/').get((req, res) => {
@@ -12,7 +13,8 @@ const routes = (app) => {
         express.json(),
         produtos,
         clientes,
-        tabAuxPedidos
+        tabAuxPedidos,
+        pedido
     )
 }
 
