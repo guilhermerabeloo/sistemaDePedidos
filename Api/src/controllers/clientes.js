@@ -98,6 +98,20 @@ class ClienteController {
                 res.status(500).send(err)
             })
     }
+
+    static exclusaoDeBairro = async (req, res) => {
+        const bairroModel = new Cliente();
+
+        await bairroModel
+            .excluirBairro(req)
+            .then((resultado) => {
+                res.status(200).send(resultado)
+            })
+            .catch((err) => {
+                console.log(err)
+                res.status(500).send(err)
+            })
+    }
 }
 
 export default ClienteController;

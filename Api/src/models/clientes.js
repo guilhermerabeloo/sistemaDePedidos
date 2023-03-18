@@ -252,4 +252,34 @@ Cliente.prototype.editarBairro = async (req, res) => {
     })
 }
 
+Cliente.prototype.excluirBairro = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        const idBairro = req.params.Id
+        pgPool(`
+            DELETE FROM bairros
+            WHERE
+                idBairro = ${idBairro}
+        `
+        )
+        .then((res) => {
+            const result = {}
+            if(res) {
+                result.code = 200;
+                result.data = `Bairro de ID ${idBairro} excluído com sucesso`;
+                result.msg = true;
+                console.log(result);
+                resolve(result);
+            }
+        })
+        .catch((err) => {
+            const result = {
+                code: 500,
+                hint: "Erro interno",
+                msg: false,
+                error: err,
+            }
+        })
+    })
+}
+
 export default Cliente;
