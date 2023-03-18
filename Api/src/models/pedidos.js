@@ -57,7 +57,7 @@ Pedido.prototype.cadastraItemPedido = async (req, res) => {
         `,
         [
             req.body.IdPedido,
-            req.body.IdProduto,
+            req.body.IdProduto || null,
             req.body.IdKit || null,
             req.body.Quantidade,
             req.body.ValorUnitario,

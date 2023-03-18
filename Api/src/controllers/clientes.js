@@ -29,6 +29,20 @@ class ClienteController {
             })
     }
 
+    static edicaoDeCliente = async (req, res) => {
+        const clienteModel = new Cliente;
+
+        await clienteModel
+            .editarCliente(req)
+            .then((resultado) => {
+                res.status(200).send(resultado);
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500).send(err);
+            })
+    }
+
     static listagemDeBairros = async (req, res) => {
         const clienteModel = new Cliente();
 
@@ -50,6 +64,20 @@ class ClienteController {
             .cadastraBairro(req)
             .then((resultado) => {
                 res.status(200).send(resultado.toJASON())
+            })
+            .catch((err) => {
+                console.log(err)
+                res.status(500).send(err)
+            })
+    }
+
+    static edicaoDeBairro = async (req, res) => {
+        const bairroModel = new Cliente;
+
+        await bairroModel
+            .editarBairro(req)
+            .then((resultado) => {
+                res.status(200).send(resultado)
             })
             .catch((err) => {
                 console.log(err)

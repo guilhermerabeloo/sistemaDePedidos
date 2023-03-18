@@ -69,14 +69,66 @@ Cliente.prototype.cadastraCliente = async (req, res) => {
     })
 }
 
+Cliente.prototype.editarCliente = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        const IdCliente = req.params.Id
+        pgPool(`
+            UPDATE clientes 
+            SET 
+                idcliente = $1,
+                cliente = $2,
+                telefone = $3,
+                endereco = $4,
+                numero = $5,
+                idbairro = $6,
+                dataatualizacao = $7,
+                sexo = $8,
+                dtnascimento = $9
+                
+            WHERE idcliente = ${IdCliente}
+        `,
+        [
+            req.body.IdCliente,
+            req.body.Cliente,
+            req.body.Telefone,
+            req.body.Endereco,
+            req.body.Numero,
+            req.body.IdBairro,
+            new Date,
+            req.body.Sexo,
+            req.body.DtNascimento,
+        ]
+        )
+        .then((res) => {
+            const result = {};
+            if(res) {
+                result.code = 200;
+                result.data = `Cliente de ID: ${IdCliente} alterado com sucesso!`;
+                result.msg = true;
+                console.log(result);
+                resolve(result);
+            }
+        })
+        .catch((err) => {
+            const result = {
+                code: 500,
+                hint: "Erro interno",
+                msg: false,
+                error: err,
+            };
+            reject(result);
+        })
+    })
+}
+
 Cliente.prototype.listaBairros = async (req, res) => {
     return new Promise((resolve, reject) => {
         pgPool(
             `SELECT * FROM bairros`
         )
-        .then((req) => {
+        .then((res) => {
             const result = {};
-            if(req) {
+            if(res) {
                 result.code = 200;
                 result.data = req.rows;
                 result.msg = true;
@@ -126,6 +178,45 @@ Cliente.prototype.cadastraBairro = async (req, res) => {
                 error: err,
             }
             reject(result)
+        })
+    })
+}
+
+Cliente.prototype.editarBairro = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        const idBairro = req.params.Id;
+        const bairro = req.body.Bairro
+        pgPool(`
+            UPDATE bairros
+            SET
+                bairro = $1,
+                taxaEntrega = $2
+            WHERE
+                idBairro = ${idBairro}
+        `,
+        [
+            req.body.Bairro,
+            req.body.TaxaEntrega,
+        ]
+        )
+        .then((res) => {
+            const result = {};
+            if(res) {
+                result.code = 200;
+                result.data = `Bairro ${bairro} alterado com sucesso!`;
+                result.msg = true;
+                console.log(result)
+                resolve(result);
+            }
+        })
+        .catch((err) => {
+            const result = {
+                code: 500,
+                hint: "Erro interno",
+                msg: false,
+                error: err,
+            };
+            reject(result);
         })
     })
 }
