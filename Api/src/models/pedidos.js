@@ -47,4 +47,44 @@ Pedido.prototype.criaPedido = async (req, res) => {
     })
 }
 
+Pedido.prototype.cadastraItemPedido = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        pgPool(`
+            INSERT INTO item_pedido
+            (idPedido, idProduto, idKit, qtde, valorUnitario, valorTotal, obs)
+            VALUES
+            ($1, $2, $3, $4, $5, $6, $7)
+        `,
+        [
+            req.body.IdPedido,
+            req.body.IdProduto,
+            req.body.IdKit || null,
+            req.body.Quantidade,
+            req.body.ValorUnitario,
+            req.body.ValorTotal,
+            req.body.Observacao,
+        ]
+        )
+        .then((res) => {
+            const result = {}
+            if(res) {
+                result.code = 200;
+                result.data = "Item adicionado ao pedido";
+                result.msg = true;
+                console.log(result);
+                resolve(result);
+            }
+        })
+        .catch((err) => {
+            const result = {
+                code: 500,
+                hint: "Erro interno",
+                msg: false,
+                error: err,
+            };
+            reject(result);
+        })
+    })
+}
+
 export default Pedido;

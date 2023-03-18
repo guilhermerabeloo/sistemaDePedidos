@@ -5,5 +5,6 @@ const router = express();
 
 router
     .post("/criaPedido", PedidoController.cadastroDePedido)
+    .post("/adicionaItemPedido", PedidoController.adicaoDeItemNoPedido)
 
 export default router
