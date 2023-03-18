@@ -43,6 +43,20 @@ class ClienteController {
             })
     }
 
+    static exclusaoDeCliente = async (req, res) => {
+        const clienteModel = new Cliente();
+
+        await clienteModel
+            .excluirCliente(req)
+            .then((resultado) => {
+                res.status(200).send(resultado)
+            })
+            .catch((err) => {
+                console.log(err)
+                res.status(500).send(err)
+            })
+    }
+
     static listagemDeBairros = async (req, res) => {
         const clienteModel = new Cliente();
 

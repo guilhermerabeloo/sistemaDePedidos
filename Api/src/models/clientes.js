@@ -121,6 +121,37 @@ Cliente.prototype.editarCliente = async (req, res) => {
     })
 }
 
+Cliente.prototype.excluirCliente = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        const IdCliente = req.params.Id
+        pgPool(`
+            DELETE FROM clientes
+            WHERE
+                idCliente = ${IdCliente}
+        `
+        )
+        .then((res) => {
+            const result = {}
+            if(res) {
+                result.code = 200;
+                result.data = `Cliente de ID ${IdCliente} excluído com sucesso`;
+                result.msg = true;
+                console.log(result);
+                resolve(result);
+            }
+        })
+        .catch((err) => {
+            const result = {
+                code: 500,
+                hint: "Erro interno",
+                msg: false,
+                error: err,
+            }
+            reject(result);
+        })
+    })
+}
+
 Cliente.prototype.listaBairros = async (req, res) => {
     return new Promise((resolve, reject) => {
         pgPool(

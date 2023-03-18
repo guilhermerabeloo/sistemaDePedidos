@@ -10,6 +10,7 @@ router
     .post('/cadastraBairro', ClienteController.cadastroDeBairros)
     .put('/alteraCliente/:Id', ClienteController.edicaoDeCliente)
     .put('/alteraBairro/:Id', ClienteController.edicaoDeBairro)
+    .delete('/excluiCliente/:Id', ClienteController.exclusaoDeCliente)
     
 
 export default router;
