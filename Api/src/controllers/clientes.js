@@ -7,10 +7,23 @@ class ClienteController {
         await clienteModel
             .listaClientes(req)
             .then((resultado) => {
-                res.status(200).send(resultado.toJason())
+                res.status(200).send(resultado)
             })
             .catch((err) => {
                 console.log(err)
+                res.status(500).send(err)
+            })
+    }
+
+    static consultaCliente = async (req, res) => {
+        const clienteModel = new Cliente();
+
+        await clienteModel
+            .consultarCliente(req)
+            .then((resultado) => {
+                res.status(200).send(resultado)
+            })
+            .catch((err) => {
                 res.status(500).send(err)
             })
     }
@@ -77,7 +90,7 @@ class ClienteController {
         await clienteModel
             .cadastraBairro(req)
             .then((resultado) => {
-                res.status(200).send(resultado.toJASON())
+                res.status(200).send(resultado)
             })
             .catch((err) => {
                 console.log(err)

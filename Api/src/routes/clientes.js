@@ -5,6 +5,7 @@ const router = express.Router()
 
 router
     .get('/clientes', ClienteController.listagemDeClientes)
+    .get("/cliente/:Id", ClienteController.consultaCliente)
     .get('/bairros', ClienteController.listagemDeBairros)
     .post('/cadastraCliente', ClienteController.cadastraClientes)
     .post('/cadastraBairro', ClienteController.cadastroDeBairros)

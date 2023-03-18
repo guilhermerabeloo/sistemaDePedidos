@@ -13,6 +13,7 @@ Cliente.prototype.listaClientes = async (req, res) => {
                 result.code = 200;
                 result.data = res.rows;
                 result.msg = true;
+                console.log(result);
                 resolve(result);
             }
         })
@@ -25,6 +26,49 @@ Cliente.prototype.listaClientes = async (req, res) => {
                 error: err,
             };
             reject(result)
+        })
+    })
+}
+
+Cliente.prototype.consultarCliente = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        const IdCliente = req.params.Id
+        pgPool(`
+        SELECT 
+            C.idcliente 
+            , C.cliente 
+            , C.telefone 
+            , C.endereco 
+            , C.numero 
+            , B.bairro 
+            , C.datacadastro 
+            , C.dataatualizacao 
+            , C.sexo 
+            , C.dtnascimento 
+        FROM clientes AS C
+        INNER JOIN bairros AS B ON B.idbairro  = C.idbairro
+        WHERE
+            C.idcliente = ${IdCliente}
+        `
+        )
+        .then((res) => {
+            const result = {};
+            if(res) {
+                result.code = 200;
+                result.data = res.rows;
+                result.msg;
+                console.log(result)
+                resolve(result);
+            }
+        })
+        .catch((err) => {
+            const result = {
+                code: 500,
+                hint: "Erro interno",
+                msg: false,
+                error: err,
+            };
+            reject(result);
         })
     })
 }

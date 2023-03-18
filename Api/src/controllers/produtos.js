@@ -21,7 +21,7 @@ class ProdutoController {
         await produtoModel
             .cadastraProduto(req)
             .then((resultado) => {
-                res.status(200).send(resultado.toJSON())
+                res.status(200).send(resultado)
             })
             .catch((err) => {
                 res.status(500).send(err)
@@ -34,7 +34,7 @@ class ProdutoController {
         await produtoModel
             .cadastraCategoria(req)
             .then((resultado) => {
-                res.status(200).send(resultado.toJSON())
+                res.status(200).send(resultado)
             })
             .catch((err) => {
                 res.status(500).send(err)
@@ -47,7 +47,7 @@ class ProdutoController {
         await produtoModel
             .cadastraSituacaoProduto(req)
             .then((resultado) => {
-                res.status(200).send(resultado.toJSON())
+                res.status(200).send(resultado)
             })
             .catch((err) => {
                 res.status(500).send(err)
@@ -60,7 +60,7 @@ class ProdutoController {
         await produtoModel
             .cadastraIngrediente(req)
             .then((resultado) => {
-                res.status(200).send(resultado.toJSON())
+                res.status(200).send(resultado)
             })
             .catch((err) => {
                 res.status(500).send(err)
@@ -75,7 +75,7 @@ class ProdutoController {
         await produtoModel
             .associaIngrediente(req)
             .then((resultado) => {
-                res.status(200).send(resultado.toJSON())
+                res.status(200).send(resultado)
             })
             .catch((err) => {
                 res.status(500).send(err)
