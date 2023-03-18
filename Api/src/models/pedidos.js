@@ -118,4 +118,34 @@ Pedido.prototype.cadastraItemPedido = async (req, res) => {
     })
 }
 
+Pedido.prototype.excluiItemPedido = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        const idItem = req.params.Id;
+        pgPool(`
+            DELETE FROM item_pedido
+            WHERE
+                idItem = ${idItem}
+        `
+        )
+        .then((res) => {
+            const result = {}
+            if(res) {
+                result.code = 200;
+                result.data = `Item ${idItem} excluído com sucesso`;
+                result.msg = true;
+                resolve(result);
+            }
+        })
+        .catch((err) => {
+            const result = {
+                code: 500,
+                hint: "Erro interno",
+                msg: false,
+                error: err,
+            };
+            reject(result);
+        })
+    })
+}
+
 export default Pedido;

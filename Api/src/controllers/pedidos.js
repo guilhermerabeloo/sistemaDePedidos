@@ -42,6 +42,20 @@ class PedidoController{
                 res.status(500).send(err)
             })
     }
+
+    static exclusaoDeItemPedido = async (req, res) => {
+        const itemModel = new Pedido();
+
+        await itemModel
+            .excluiItemPedido(req)
+            .then((resultado) => {
+                res.status(200).send(resultado)
+            })
+            .catch((err) => {
+                console.log(err)
+                res.status(500).send(err)
+            })
+    }
 }
 
 

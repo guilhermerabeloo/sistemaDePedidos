@@ -7,5 +7,6 @@ router
     .post("/criaPedido", PedidoController.cadastroDePedido)
     .post("/adicionaItemPedido", PedidoController.adicaoDeItemNoPedido)
     .delete("/excluiPedido/:Id", PedidoController.exclusaoDePedido)
+    .delete("/excluiItemPedido/:Id", PedidoController.exclusaoDeItemPedido)
 
 export default router
