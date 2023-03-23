@@ -30,7 +30,7 @@ Pedido.prototype.consultaPedido = async (req, res) => {
             INNER JOIN bairros b ON b.idbairro = p.idbairro 
 
             WHERE
-                p.idpedido = 1
+                p.idpedido = ${idPedido}
             `
         )
         .then((res) => {
@@ -46,6 +46,49 @@ Pedido.prototype.consultaPedido = async (req, res) => {
         .catch((err) => {
             const result = {
                 code: 200,
+                hint: "Erro interno",
+                msg: false,
+                error: err,
+            };
+            reject(result);
+        })
+    })
+}
+
+Pedido.prototype.consultaItemPedido = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        const idPedido = req.params.Id
+        pgPool(
+            `
+            SELECT 
+                ip.iditem 
+                , ip.idpedido 
+                , p.produto 
+                , k.kit 
+                , ip.qtde 
+                , ip.valorunitario 
+                , ip.valortotal 
+                , ip.obs
+            FROM item_pedido ip 
+            LEFT JOIN produtos p ON p.idproduto = ip.idproduto 
+            LEFT JOIN kits k ON k.idkit = ip.idkit 
+            WHERE
+                ip.idpedido = ${idPedido}
+            `
+        )
+        .then((res) => {
+            const result = {};
+            if(res) {
+                result.code = 200;
+                result.data = res.rows;
+                result.msg = true;
+                console.log(result);
+                resolve(result);
+            }
+        })
+        .catch((err) => {
+            const result = {
+                code: 500,
                 hint: "Erro interno",
                 msg: false,
                 error: err,

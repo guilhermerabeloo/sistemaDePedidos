@@ -6,6 +6,7 @@ const router = express();
 
 router
     .get("/consultaPedido/:Id", PedidoController.consultaDePedido)
+    .get("/consultaItemPedido/:Id", PedidoController.consultaDeItensPedido)
     .post("/criaPedido", PedidoController.cadastroDePedido)
     .post("/adicionaItemPedido", PedidoController.adicaoDeItemNoPedido)
     .delete("/excluiPedido/:Id", PedidoController.exclusaoDePedido)
