@@ -1,6 +1,20 @@
 import Pedido from "../models/pedidos.js";
 
 class PedidoController{
+    static consultaDePedido = async (req, res) => {
+        const pedidoModel = new Pedido();
+
+        pedidoModel
+            .consultaPedido(req)
+            .then((resultado) => {
+                res.status(200).send(resultado)
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500).send(err)
+            })
+    }
+
     static cadastroDePedido = async (req, res) => {
         const pedidoModel = new Pedido;
 

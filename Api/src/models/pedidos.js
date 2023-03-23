@@ -2,6 +2,59 @@ import pgPool from "../../config/pgPool.js";
 
 function Pedido() {}
 
+Pedido.prototype.consultaPedido = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        const idPedido = req.params.Id;
+        pgPool(
+            `
+            SELECT 
+                p.idpedido 
+                , c.cliente 
+                , p.datapedido 
+                , s.status 
+                , a.atendente 
+                , e.entregador 
+                , t.tipo 
+                , p.desconto 
+                , P.taxaentrega 
+                , p.endereco 
+                , p.numero 
+                , b.bairro 
+                , p.obs 
+            FROM pedidos p 
+            INNER JOIN clientes c ON c.idcliente = p.idpedido 
+            INNER JOIN statuspedido s ON s.idstatus = p.idstatus 
+            INNER JOIN atendentes a ON a.idatendente = p.idatendente 
+            INNER JOIN entregadores e ON E.identregador  = P.identregador 
+            INNER JOIN tipospedido t ON t.idtipo = p.idtipo
+            INNER JOIN bairros b ON b.idbairro = p.idbairro 
+
+            WHERE
+                p.idpedido = 1
+            `
+        )
+        .then((res) => {
+            const result = {};
+            if(res) {
+                result.code = 200;
+                result.data = res.rows;
+                result.msg = true;
+                console.log(result);
+                resolve(result);
+            }
+        })
+        .catch((err) => {
+            const result = {
+                code: 200,
+                hint: "Erro interno",
+                msg: false,
+                error: err,
+            };
+            reject(result);
+        })
+    })
+}
+
 Pedido.prototype.criaPedido = async (req, res) => {
     return new Promise((resolve, reject) => {
         pgPool(`
