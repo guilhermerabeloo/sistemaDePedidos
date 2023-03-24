@@ -152,6 +152,52 @@ Pedido.prototype.alteraPedido = async (req, res) => {
     })
 }
 
+Pedido.prototype.alteraItemPedido = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        const idPedido = req.params.IdPedido;
+        const idItem = req.params.IdItem;
+        pgPool(`
+        UPDATE item_pedido 
+        SET
+            idproduto = $1,
+            idkit = $2,
+            qtde = $3,
+            valortotal = $4,
+            obs = $5
+            
+        WHERE
+            idpedido = ${idPedido}
+            AND iditem = ${idItem}
+        `,
+        [
+            req.body.Produto,
+            req.body.Kit || null,
+            req.body.Qtde || null,
+            req.body.ValorTotal,
+            req.body.Obs,
+        ]
+        )
+        .then((res) => {
+            const result = {};
+            if(res) {
+                result.code = 200;
+                result.data = res;
+                result.msg = true;
+                resolve(result)
+            }
+        })
+        .catch((err) => {
+            const result = {
+                code: 500,
+                hint: "Erro interno",
+                msg: false,
+                error: err,
+            };
+            reject(result);
+        })
+    })
+}
+
 Pedido.prototype.criaPedido = async (req, res) => {
     return new Promise((resolve, reject) => {
         pgPool(`
