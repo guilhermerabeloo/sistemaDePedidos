@@ -11,6 +11,7 @@ router
     .post("/cadastraSituacaoProduto", ProdutoController.cadastroDeSituacoesProduto)
     .post("/cadastraIngrediente", ProdutoController.cadastrarIngrediente)
     .post("/associaIngrediente/:idProduto/:idIngrediente", ProdutoController.relacionarIngredienteProduto)
+    .put("/alteraProduto/:Id", ProdutoController.alteracaoDeProduto)
 
 export default router;
 

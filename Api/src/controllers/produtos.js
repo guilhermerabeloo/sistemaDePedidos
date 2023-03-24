@@ -42,6 +42,20 @@ class ProdutoController {
             })
     }
 
+    static alteracaoDeProduto = async (req, res) => {
+        const produtoModel = new Produto();
+
+        await produtoModel
+            .alteraProduto(req)
+            .then((resultado) => {
+                res.status(200).send(resultado)
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500).send(err)
+            })
+    }
+
     static cadastroDeCategorias = async (req, res) => {
         const produtoModel = new Produto()
 
