@@ -9,6 +9,7 @@ router
     .get("/consultaItemPedido/:Id", PedidoController.consultaDeItensPedido)
     .post("/criaPedido", PedidoController.cadastroDePedido)
     .post("/adicionaItemPedido", PedidoController.adicaoDeItemNoPedido)
+    .put("/alteraPedido/:Id", PedidoController.alteracaoDePedido)
     .delete("/excluiPedido/:Id", PedidoController.exclusaoDePedido)
     .delete("/excluiItemPedido/:Id", PedidoController.exclusaoDeItemPedido)
 

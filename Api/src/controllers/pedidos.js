@@ -29,32 +29,11 @@ class PedidoController{
             })
     }
 
-
-
-
-
-
-
-
     static cadastroDePedido = async (req, res) => {
         const pedidoModel = new Pedido;
 
         await pedidoModel
             .criaPedido(req)
-            .then((resultado) => {
-                res.status(200).send(resultado)
-            })
-            .catch((err) => {
-                console.log(err)
-                res.status(500).send(err)
-            })
-    }
-
-    static exclusaoDePedido = async (req, res) => {
-        const pedidoModel = new Pedido;
-
-        await pedidoModel
-            .excluiPedido(req)
             .then((resultado) => {
                 res.status(200).send(resultado)
             })
@@ -74,6 +53,34 @@ class PedidoController{
             })
             .catch((err) => {
                 console.log(err);
+                res.status(500).send(err)
+            })
+    }
+
+    static alteracaoDePedido = async (req, res) => {
+        const pedidoModel = new Pedido();
+
+        await pedidoModel
+            .alteraPedido(req)
+            .then((resultado) => {
+                res.status(200).send(resultado)
+            })
+            .catch((err) => {
+                console.log(err)
+                res.status(500).send(err)
+            })
+    }
+
+    static exclusaoDePedido = async (req, res) => {
+        const pedidoModel = new Pedido;
+
+        await pedidoModel
+            .excluiPedido(req)
+            .then((resultado) => {
+                res.status(200).send(resultado)
+            })
+            .catch((err) => {
+                console.log(err)
                 res.status(500).send(err)
             })
     }

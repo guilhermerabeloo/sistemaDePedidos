@@ -98,6 +98,60 @@ Pedido.prototype.consultaItemPedido = async (req, res) => {
     })
 }
 
+Pedido.prototype.alteraPedido = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        const idPedido = req.params.Id;
+        pgPool(
+            `
+            UPDATE pedidos 
+            SET
+                idstatus = $1,
+                identregador = $2,
+                idtipo = $3,
+                desconto = $4,
+                taxaentrega = $5,
+                endereco = $6,
+                numero = $7,
+                idbairro = $8,
+                obs = $9
+            WHERE 
+                idpedido = ${idPedido}
+            `,
+            [
+                req.body.Status,
+                req.body.Entregador,
+                req.body.Tipo,
+                req.body.Desconto,
+                req.body.TaxaEntrega,
+                req.body.Endereco,
+                req.body.Numero,
+                req.body.Bairro,
+                req.body.Obs,
+            ]
+        )
+        .then((res) => {
+            const result = {};
+            if(res) {
+                result.code = 200;
+                result.data = res;
+                result.msg = true;
+                resolve(result);
+            };
+            console.log(result);
+            resolve(result);
+        })
+        .catch((err) => {
+            const result = {
+                code: 500,
+                hint: "Erro Interno",
+                msg: false,
+                error: err,
+            };
+            reject(result)
+        })
+    })
+}
+
 Pedido.prototype.criaPedido = async (req, res) => {
     return new Promise((resolve, reject) => {
         pgPool(`
