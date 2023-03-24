@@ -71,10 +71,10 @@ class PedidoController{
             })
     }
 
-    static alteracaoDeItem = (req, res) => {
+    static alteracaoDeItem = async (req, res) => {
         const itemPedidoModel = new Pedido();
 
-        itemPedidoModel
+        await itemPedidoModel
             .alteraItemPedido(req)
             .then((resultado) => {
                 res.status(200).send(resultado)

@@ -29,6 +29,43 @@ Produto.prototype.listaProdutos = async (req) => {
         })
     }
 
+Produto.prototype.consultaProduto = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        const idProduto = req.params.Id;
+        pgPool(`
+        SELECT 
+            p.idproduto,
+            p.produto,
+            c.categoria,
+            sp.preco
+        FROM produtos p 
+        INNER JOIN categorias c ON C.idcategoria = P.idcategoria 
+        INNER JOIN sit_produtos sp ON sp.idproduto = p.idproduto AND sp.datasituacao = (SELECT MAX(sp2.datasituacao) FROM sit_produtos sp2 WHERE sp.idsituacao = sp2.idsituacao)
+        WHERE
+            P.idproduto = ${idProduto}
+        `)
+        .then((res) => {
+            const result = {};
+
+            if(res) {
+                result.code = 200;
+                result.data = res.rows;
+                result.msg = true;
+                resolve(result);
+            }
+        })
+        .catch((err) => {
+            const result = {
+                code: 500,
+                hint: "Erro interno",
+                msg: false,
+                error: err
+            };
+            reject(result);
+        })
+    })
+}
+
 Produto.prototype.cadastraProduto = async (req, res) => {
     return new Promise((resolve, reject) => {
         pgPool(
