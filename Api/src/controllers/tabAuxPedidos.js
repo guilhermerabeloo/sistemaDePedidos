@@ -15,6 +15,20 @@ class AuxPedidosController {
             })
     }
 
+    static consultaDeEntregadores = async (req, res) => {
+        const entregadorModel = new AuxPedidos();
+
+        await entregadorModel
+            .consultaEntregadores(req)
+            .then((resultado) => {
+                res.status(200).send(resultado)
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500).send(err)
+            })
+    }
+
     static cadastroDeAtendente = async (req, res) => {
         const atendentesModels = new AuxPedidos();
         

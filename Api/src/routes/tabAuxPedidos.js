@@ -5,9 +5,10 @@ const router = express.Router()
 
 router
     .get("/consultaAtendentes", AuxPedidosController.consultaDeAtendentes)
+    .get("/consultaEntregadores", AuxPedidosController.consultaDeEntregadores)
     .post("/cadastraAtendente", AuxPedidosController.cadastroDeAtendente)
-    .delete("/excluiAtendente/:id", AuxPedidosController.exclusaoDeAtendente)
     .post("/cadastraEntregador", AuxPedidosController.cadastroDeEntregador)
     .delete("/excluiEntregador/:id", AuxPedidosController.exclusaoDeEntregador)
+    .delete("/excluiAtendente/:id", AuxPedidosController.exclusaoDeAtendente)
 
 export default router;

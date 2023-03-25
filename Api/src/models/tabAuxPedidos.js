@@ -26,6 +26,30 @@ AuxPedidos.prototype.consultaAtendentes = async (req, res) => {
     })
 }
 
+AuxPedidos.prototype.consultaEntregadores = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        pgPool(`SELECT * FROM entregadores`)
+        .then((res) => {
+            const result = {};
+            if(res) {
+                result.code = 200,
+                result.data = res.rows;
+                result.msg = false;
+            };
+            resolve(result);
+        })
+        .catch((err) => {
+            const result = {
+                code: 500,
+                hint: "Erro interno",
+                msg: false,
+                error: err,
+            };
+            reject(result);
+        })
+    })
+}
+
 AuxPedidos.prototype.cadastraAtendente = async (req, res) => {
     return new Promise((resolve, reject) => {
         pgPool(`
