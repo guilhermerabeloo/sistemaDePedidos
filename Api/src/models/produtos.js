@@ -66,6 +66,42 @@ Produto.prototype.consultaProduto = async (req, res) => {
     })
 }
 
+Produto.prototype.consultaIngredientesProduto = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        const idProduto = req.params.IdProduto;
+
+        pgPool(`
+        SELECT 
+            p.idproduto 
+            , p.produto 
+            , i.ingrediente 
+        FROM produtos p 
+        LEFT JOIN ingrediente_produto ip ON ip.idproduto  = p.idproduto 
+        LEFT JOIN ingredientes i ON I.idingrediente = ip.idingrediente 
+        WHERE 
+            P.idproduto = ${idProduto}
+        `)
+        .then((res) => {
+            const result = {};
+            if(res) {
+                result.code = 200;
+                result.data = res.rows;
+                result.msg = true;
+            };
+            resolve(result);
+        })
+        .catch((err) => {
+            const result = {
+                code: 500,
+                hint: "Erro interno",
+                msg: false,
+                error: err
+            };
+            reject(result);
+        })
+    })
+}
+
 Produto.prototype.cadastraProduto = async (req, res) => {
     return new Promise((resolve, reject) => {
         pgPool(
@@ -163,7 +199,7 @@ Produto.prototype.cadastraCategoria = async (req, res) => {
                 resolve(result);
             }
         })
-        .catch((res) => {
+        .catch((err) => {
             console.log(err);
             const result = {
                 hint: "Erro interno",
@@ -201,7 +237,7 @@ Produto.prototype.cadastraSituacaoProduto = async (req, res) => {
                 resolve(result);
             }
         })
-        .catch((res) => {
+        .catch((err) => {
             const result = {
                 hint: "Erro interno",
                 code: 500,
@@ -236,7 +272,7 @@ Produto.prototype.cadastraIngrediente = async(req, res) => {
                 resolve(result)
             }
         })
-        .catch((res) => {
+        .catch((err) => {
             const result = {
                 hint: "Erro interno",
                 code: 500,
