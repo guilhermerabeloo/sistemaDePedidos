@@ -9,6 +9,7 @@ router
     .post("/cadastraAtendente", AuxPedidosController.cadastroDeAtendente)
     .post("/cadastraEntregador", AuxPedidosController.cadastroDeEntregador)
     .put("/alteraAtendente/:IdAtendente", AuxPedidosController.alteracaoDeAtendente)
+    .put("/alteraEntregador/:IdEntregador", AuxPedidosController.alteracaoDeEntregador)
     .delete("/excluiEntregador/:id", AuxPedidosController.exclusaoDeEntregador)
     .delete("/excluiAtendente/:id", AuxPedidosController.exclusaoDeAtendente)
 

@@ -71,6 +71,20 @@ class AuxPedidosController {
             })
     }
 
+    static alteracaoDeEntregador = async (req, res) => {
+        const entregadorModel = new AuxPedidos();
+
+        await entregadorModel
+            .alteraEntregador(req)
+            .then((resultado) => {
+                res.status(200).send(resultado)
+            })
+            .catch((err) => {
+                console.log(err)
+                res.status(500).send(err)
+            })
+    }
+
     static exclusaoDeAtendente = async (req, res) => {
         const atendenteModel = new AuxPedidos();
 
