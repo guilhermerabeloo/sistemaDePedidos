@@ -2,6 +2,30 @@ import pgPool from "../../config/pgPool.js";
 
 function AuxPedidos(){}
 
+AuxPedidos.prototype.consultaAtendentes = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        pgPool(`SELECT * FROM atendentes`)
+        .then((res) => {
+            const result = {};
+            if(res) {
+                result.code = 200;
+                result.data = res.rows;
+                result.msg = true;
+                resolve(result);
+            }
+        })
+        .catch((err) => {
+            const result = {
+                code: 500,
+                hint: "Erro interno",
+                msg: false,
+                error: err,
+            };
+            reject(result);
+        })
+    })
+}
+
 AuxPedidos.prototype.cadastraAtendente = async (req, res) => {
     return new Promise((resolve, reject) => {
         pgPool(`

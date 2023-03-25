@@ -1,6 +1,20 @@
 import AuxPedidos from "../models/tabAuxPedidos.js";
 
 class AuxPedidosController {
+    static consultaDeAtendentes = async (req, res) => {
+        const atendenteModel = new AuxPedidos();
+
+        await atendenteModel
+            .consultaAtendentes(req)
+            .then((resultado) => {
+                res.status(200).send(resultado)
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500).send(err)
+            })
+    }
+
     static cadastroDeAtendente = async (req, res) => {
         const atendentesModels = new AuxPedidos();
         
