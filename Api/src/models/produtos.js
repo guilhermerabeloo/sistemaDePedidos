@@ -280,4 +280,36 @@ Produto.prototype.associaIngrediente = async(req, res) => {
     })
 }
 
+Produto.prototype.excluiIngredienteProduto = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        const idProduto = req.params.IdProduto;
+        const idIngrediente = req.params.IdIngrediente;
+
+        pgPool(`
+        DELETE FROM ingrediente_produto 
+        WHERE 
+            idproduto = ${idProduto}
+            AND idingrediente = ${idIngrediente}
+        `)
+        .then((res) => {
+            const result = {};
+            if(res) {
+                result.code = 200;
+                result.data = res.rows;
+                result.msg = true;
+            };
+            resolve(result);
+        })
+        .catch((err) => {
+            const result = {
+                code: 500,
+                hint: "Erro Interno",
+                msg: false,
+                error: err,
+            }
+            reject(result);
+        })
+    })
+}
+
 export default Produto;
