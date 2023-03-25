@@ -50,6 +50,56 @@ AuxPedidos.prototype.consultaEntregadores = async (req, res) => {
     })
 }
 
+AuxPedidos.prototype.consultaTiposPedido = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        pgPool(`SELECT * FROM tiposPedido`)
+        .then((res) => {
+            const result = {};
+
+            if(res) {
+                result.code = 200;
+                result.data = res.rows;
+                result.msg = true;
+                resolve(result);
+            }
+        })
+        .catch((err) => {
+            const result = {
+                code: 500,
+                hint: "Erro interno",
+                msg: false,
+                error: err,
+            }
+        })
+    })
+}
+
+AuxPedidos.prototype.consultaStatusPedido = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        pgPool(`
+        SELECT * FROM statusPedido
+        `)
+        .then((res) => {
+            const result = {};
+            if(res) {
+                result.code = 200;
+                result.data = res.rows;
+                result.msg = true;
+                resolve(result);
+            }
+        })
+        .catch((err) => {
+            const result = {
+                code: 200,
+                hint: "Erro interno",
+                msg: false,
+                error: err,
+            };
+            reject(result);
+        })
+    })
+}
+
 AuxPedidos.prototype.cadastraAtendente = async (req, res) => {
     return new Promise((resolve, reject) => {
         pgPool(`

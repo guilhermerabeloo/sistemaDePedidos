@@ -6,6 +6,8 @@ const router = express.Router()
 router
     .get("/consultaAtendentes", AuxPedidosController.consultaDeAtendentes)
     .get("/consultaEntregadores", AuxPedidosController.consultaDeEntregadores)
+    .get("/consultaTiposPedido", AuxPedidosController.consultaDeTiposPedido)
+    .get("/consultaStatusPedido", AuxPedidosController.consultaDeStatusPedido)
     .post("/cadastraAtendente", AuxPedidosController.cadastroDeAtendente)
     .post("/cadastraEntregador", AuxPedidosController.cadastroDeEntregador)
     .put("/alteraAtendente/:IdAtendente", AuxPedidosController.alteracaoDeAtendente)

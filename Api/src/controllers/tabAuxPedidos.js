@@ -43,6 +43,34 @@ class AuxPedidosController {
             })
     }
 
+    static consultaDeTiposPedido = async (req, res) => {
+        const tipoPedidoModel = new AuxPedidos();
+
+        await tipoPedidoModel
+            .consultaTiposPedido(req)
+            .then((resultado) => {
+                res.status(200).send(resultado)
+            })
+            .catch((err) => {
+                console.log(err)
+                res.status(500).send(err)
+            })
+    }
+
+    static consultaDeStatusPedido = async (req, res) => {
+        const statusPedidoModel = new AuxPedidos();
+
+        await statusPedidoModel
+            .consultaStatusPedido(req)
+            .then((resultado) => {
+                res.status(200).send(resultado)
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500).send(err)
+            })
+    }
+
     static cadastroDeEntregador = async (req, res) => {
         const entregadorModel = new AuxPedidos();
 
