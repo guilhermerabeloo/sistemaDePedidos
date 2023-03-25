@@ -85,37 +85,6 @@ AuxPedidos.prototype.cadastraAtendente = async (req, res) => {
     })
 }
 
-AuxPedidos.prototype.deletaAtendente = async (req, res) => {
-    return new Promise((resolve, reject) => {
-        const idAtendente = req.params.id
-        pgPool(`
-            DELETE FROM atendentes
-            WHERE
-                idatendente = ${idAtendente}
-        `)
-        .then((res) => {
-            const result = {};
-            if(res) {
-                result.code = 200;
-                result.data = "Cliente excluído com sucesso";
-                result.msg = true;
-                console.log(result)
-                resolve(result);
-            }
-        })
-        .catch((err) => {
-            console.log(err)
-            const result = {
-                code: 500,
-                hint: "Erro interno",
-                msg: false,
-                error: err,
-            };
-            reject(result);
-        })
-    })
-}
-
 AuxPedidos.prototype.cadastraEntregador = async (req, res) => {
     return new Promise((resolve, reject) => {
         pgPool(`
@@ -139,6 +108,73 @@ AuxPedidos.prototype.cadastraEntregador = async (req, res) => {
             }
         })
         .catch((err) => {
+            const result = {
+                code: 500,
+                hint: "Erro interno",
+                msg: false,
+                error: err,
+            };
+            reject(result);
+        })
+    })
+}
+
+AuxPedidos.prototype.alteraAtendente = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        const idAtendente = req.params.IdAtendente;
+        pgPool(`
+        UPDATE atendentes 
+        SET
+        atendente = $1
+        WHERE
+            idatendente = ${idAtendente}
+        `,
+        [
+            req.body.Atendente
+        ]
+        )
+        .then((res) => {
+            const result = {};
+            if(res) {
+                result.code = 200,
+                result.data = res.rows;
+                result.msg = true;
+                resolve(result);
+            }
+        })
+        .catch((err) => {
+            const result = {
+                code: 500,
+                hint: "Erro interno",
+                msg: false,
+                error: err
+            };
+            console.log(result)
+            reject(result);
+        })
+    })
+}
+
+AuxPedidos.prototype.deletaAtendente = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        const idAtendente = req.params.id
+        pgPool(`
+            DELETE FROM atendentes
+            WHERE
+                idatendente = ${idAtendente}
+        `)
+        .then((res) => {
+            const result = {};
+            if(res) {
+                result.code = 200;
+                result.data = "Cliente excluído com sucesso";
+                result.msg = true;
+                console.log(result)
+                resolve(result);
+            }
+        })
+        .catch((err) => {
+            console.log(err)
             const result = {
                 code: 500,
                 hint: "Erro interno",

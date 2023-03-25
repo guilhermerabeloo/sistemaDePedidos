@@ -43,11 +43,11 @@ class AuxPedidosController {
             })
     }
 
-    static exclusaoDeAtendente = async (req, res) => {
-        const atendenteModel = new AuxPedidos();
+    static cadastroDeEntregador = async (req, res) => {
+        const entregadorModel = new AuxPedidos();
 
-        await atendenteModel
-            .deletaAtendente(req)
+        await entregadorModel
+            .cadastraEntregador(req)
             .then((resultado) => {
                 res.status(200).send(resultado)
             })
@@ -57,11 +57,25 @@ class AuxPedidosController {
             })
     }
 
-    static cadastroDeEntregador = async (req, res) => {
-        const entregadorModel = new AuxPedidos();
+    static alteracaoDeAtendente = async (req, res) => {
+        const atendenteModel = new AuxPedidos();
 
-        await entregadorModel
-            .cadastraEntregador(req)
+        await atendenteModel
+            .alteraAtendente(req)
+            .then((resultado) => {
+                res.status(200).send(resultado);
+            })
+            .catch((err) => {
+                console.log(err)
+                res.status(500).send(err);
+            })
+    }
+
+    static exclusaoDeAtendente = async (req, res) => {
+        const atendenteModel = new AuxPedidos();
+
+        await atendenteModel
+            .deletaAtendente(req)
             .then((resultado) => {
                 res.status(200).send(resultado)
             })
