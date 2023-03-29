@@ -56,6 +56,20 @@ class KitController {
                 res.status(500).send(err)
             })
     }
+
+    static associacaoProdutoKit = async (req, res) => {
+        const kitModel = new Kit();
+
+        await kitModel
+            .associaProdutoKit(req)
+            .then((resultado) => {
+                res.status(200).send(resultado)
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500).send(err)
+            })
+    }
 }
 
 export default KitController;

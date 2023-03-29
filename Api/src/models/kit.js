@@ -135,4 +135,39 @@ Kit.prototype.cadastraSituacaoKit = async (req, res) => {
     })
 }
 
+Kit.prototype.associaProdutoKit = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        pgPool(`
+        INSERT INTO produtos_kit
+        VALUES
+        ($1, $2, $3)
+        `,
+        [
+            req.body.IdKit,
+            req.body.IdProduto,
+            req.body.Qtde,
+        ]
+        )
+        .then((res) => {
+            const result = [];
+            
+            if(res) {
+                result.code = 200;
+                result.data = res;
+                result.msg = true;
+                resolve(result);
+            }
+        })
+        .catch((err) => {
+            const result = {
+                code: 500,
+                hint: "Erro interno",
+                msg: false,
+                error: err,
+            };
+            reject(result)
+        })
+    })
+}
+
 export default Kit;
