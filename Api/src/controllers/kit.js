@@ -1,17 +1,31 @@
 import Kit from "../models/kit.js";
 
 class KitController {
-    static consultaDeKits = async(req, res) => {
+    static listagemDeKits = async(req, res) => {
         const kitModel = new Kit();
 
         await kitModel
-            .consultaKits(req)
+            .listaKits(req)
             .then((resultado) => {
                 res.status(200).send(resultado)
             })
             .catch((err) => {
                 console.log(err);
                 res.status(200).send(err)
+            })
+    }
+
+    static consultaDeKit = async (req, res) => {
+        const kitModel = new Kit();
+
+        await kitModel
+            .consultaKit(req)
+            .then((resultado) => {
+                res.status(200).send(resultado)
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500).send(err)
             })
     }
 }

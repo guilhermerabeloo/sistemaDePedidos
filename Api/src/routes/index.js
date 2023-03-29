@@ -3,7 +3,7 @@ import produtos from "./produtos.js";
 import clientes from "./clientes.js";
 import tabAuxPedidos from "./tabAuxPedidos.js";
 import pedido from "./pedidos.js";
-import Kit from "../models/kit.js";
+import kit from "./kit.js";
 
 const routes = (app) => {
     app.route('/').get((req, res) => {
@@ -16,7 +16,7 @@ const routes = (app) => {
         clientes,
         tabAuxPedidos,
         pedido,
-        Kit
+        kit
     )
 }
 
