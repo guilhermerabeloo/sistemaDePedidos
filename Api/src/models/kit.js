@@ -66,4 +66,37 @@ Kit.prototype.consultaKit = async (req, res) => {
     })
 }
 
+Kit.prototype.cadastraKit = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        pgPool(`
+            INSERT INTO kits
+            (kit)
+            VALUES
+            ($1)
+        `,
+        [
+            req.body.Kit,
+        ]
+        )
+        .then((res) => {
+            const result = [];
+            if(res) {
+                result.code = 200;
+                result.data = res;
+                result.msg = true;
+                resolve(result);
+            }
+        })
+        .catch((err) => {
+            const result = {
+                code: 500,
+                hint: "Erro interno",
+                msg: false,
+                error: err,
+            };
+            reject(result);
+        })
+    })
+}
+
 export default Kit;

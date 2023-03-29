@@ -28,6 +28,20 @@ class KitController {
                 res.status(500).send(err)
             })
     }
+
+    static cadastroDeKit = async (req, res) => {
+        const kitModel = new Kit();
+
+        await kitModel
+            .cadastraKit(req)
+            .then((resultado) => {
+                res.status(200).send(resultado)
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500).send(err)
+            })
+    }
 }
 
 export default KitController;

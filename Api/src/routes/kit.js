@@ -5,6 +5,7 @@ const router = express.Router()
 
     router
         .get('/listaKit', KitController.listagemDeKits)
-        .get('/consultaKit', KitController.consultaDeKit)
+        .get('/consultaKit/:Kit', KitController.consultaDeKit)
+        .post('/cadastraKit', KitController.cadastroDeKit)
         
 export default router;
