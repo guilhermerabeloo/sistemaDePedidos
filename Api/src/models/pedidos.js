@@ -45,7 +45,7 @@ Pedido.prototype.consultaPedido = async (req, res) => {
         })
         .catch((err) => {
             const result = {
-                code: 200,
+                code: 500,
                 hint: "Erro interno",
                 msg: false,
                 error: err,

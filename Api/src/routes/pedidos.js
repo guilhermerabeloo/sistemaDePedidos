@@ -1,8 +1,7 @@
 import express from "express";
 import PedidoController from "../controllers/pedidos.js";
-import Pedido from "../models/pedidos.js";
 
-const router = express();
+const router = express.Router();
 
 router
     .get("/consultaPedido/:Id", PedidoController.consultaDePedido)

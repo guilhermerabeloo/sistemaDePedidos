@@ -3,6 +3,7 @@ import produtos from "./produtos.js";
 import clientes from "./clientes.js";
 import tabAuxPedidos from "./tabAuxPedidos.js";
 import pedido from "./pedidos.js";
+import Kit from "../models/kit.js";
 
 const routes = (app) => {
     app.route('/').get((req, res) => {
@@ -14,7 +15,8 @@ const routes = (app) => {
         produtos,
         clientes,
         tabAuxPedidos,
-        pedido
+        pedido,
+        Kit
     )
 }
 
