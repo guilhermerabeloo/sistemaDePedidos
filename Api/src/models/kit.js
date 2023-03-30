@@ -236,4 +236,34 @@ Kit.prototype.excluiKit = async (req, res) => {
     })
 }
 
+Kit.prototype.excluiProdutoKit = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        const idKit = req.params.IdKit;
+        const idProduto = req.params.IdProduto;
+        pgPool(`
+            DELETE FROM produtos_kit 
+            WHERE
+                idKit = ${idKit}
+                AND idProduto = ${idProduto}
+        `)
+        .then((res) => {
+            const result = {};
+            if(res) {
+                result.code = 200;
+                result.data = res;
+                result.msg = true;
+                resolve(result);
+            }
+        })
+        .catch((err) => {
+            const result = {
+                code: 500,
+                hint: "Erro interno",
+                msg: false,
+                error: err,
+            }
+        })
+    })
+}
+
 export default Kit;

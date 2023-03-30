@@ -11,5 +11,6 @@ const router = express.Router()
         .post('/associaProdutoKit', KitController.associacaoProdutoKit)
         .put('/alteraKit/:IdKit', KitController.alteracaoDeKit)
         .delete('/excluiKit/:IdKit', KitController.exclusaoDeKit)
+        .delete('/excluiProdutoDoKit', KitController.exclusaoProdutoDoKit)
         
 export default router;
