@@ -170,4 +170,70 @@ Kit.prototype.associaProdutoKit = async (req, res) => {
     })
 }
 
+Kit.prototype.alteraKit = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        const idKit = req.params.IdKit;
+        pgPool(`
+            UPDATE kits
+            SET
+                kit = $1
+            WHERE
+                idKit = ${idKit}
+        `,
+        [
+            req.body.Kit
+        ]
+        )
+        .then((res) => {
+            const result = {};
+
+            if(res) {
+                result.code = 200;
+                result.data = res;
+                result.msg = true;
+                resolve(result);
+            }
+        })
+        .catch((err) => {
+            const result = {
+                code: 500,
+                hint: "Erro interno",
+                msg: false,
+                error: err,
+            };
+            reject(result);
+        })
+    })
+}
+
+Kit.prototype.excluiKit = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        const idKit = req.body.IdKit;
+        pgPool(`
+            DELETE FROM kits
+            WHERE
+                idKit = ${idKit}
+        `)
+        .then((res) => {
+            const result = {};
+
+            if(res) {
+                result.code = 200;
+                result.data = res;
+                result.msg = true;
+                resolve(result);
+            }
+        })
+        .catch((err) => {
+            const result = {
+                code: 500,
+                hint: "Erro interno",
+                msg: false,
+                error: err,
+            };
+            reject(result);
+        })
+    })
+}
+
 export default Kit;

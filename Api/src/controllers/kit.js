@@ -70,6 +70,33 @@ class KitController {
                 res.status(500).send(err)
             })
     }
+
+    static alteracaoDeKit = async (req, res) => {
+        const kitModel = new Kit();
+
+        await kitModel
+            .alteraKit(req)
+            .then((resultado) => {
+                res.status(200).send(resultado)
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500).send(err)
+            })
+    }
+
+    static exclusaoDeKit = async (req, res) => {
+        const kitModel = new Kit();
+
+        await kitModel
+            .excluiKit(req)
+            .then((resultado) => {
+                res.status(200).send(resultado)
+            })
+            .catch((err) => {
+                res.status(500).send(err)
+            })
+    }
 }
 
 export default KitController;

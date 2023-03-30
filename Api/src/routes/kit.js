@@ -9,5 +9,7 @@ const router = express.Router()
         .post('/cadastraKit', KitController.cadastroDeKit)
         .post('/cadastraSituacaoProduto', KitController.cadastroDeSituacoesKit)
         .post('/associaProdutoKit', KitController.associacaoProdutoKit)
+        .put('/alteraKit/:IdKit', KitController.alteracaoDeKit)
+        .delete('/excluiKit/:IdKit', KitController.exclusaoDeKit)
         
 export default router;
