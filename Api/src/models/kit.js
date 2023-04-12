@@ -39,9 +39,9 @@ Kit.prototype.consultaKit = async (req, res) => {
                 , pk.qtde
                 , p.produto
             FROM kits as k
-            INNER JOIN sit_kits as sk ON sk.idKit = k.idKit AND sk.idSituacao = (SELECT MAX(sk2.idSituacao) FROM sit_kits AS sk2 WHERE sk.idKit = sk2.idKit)
-            INNER JOIN produtos_kit as pk ON pk.idkit = k.idKit
-            INNER JOIN produtos as p ON p.idProduto = sk.idProduto
+            LEFT JOIN sit_kits as sk ON sk.idKit = k.idKit AND sk.idSituacao = (SELECT MAX(sk2.idSituacao) FROM sit_kits AS sk2 WHERE sk.idKit = sk2.idKit)
+            LEFT JOIN produtos_kit as pk ON pk.idkit = k.idKit
+            LEFT JOIN produtos as p ON p.idProduto = pk.idProduto
             WHERE
                 k.idKit = ${idKit}
         `)
@@ -106,7 +106,7 @@ Kit.prototype.cadastraSituacaoKit = async (req, res) => {
             (dataSituacao, preco, idKit)
             VALUES
             ($1, $2, $3)
-        `
+        `,
         [
             new Date(),
             req.body.Preco,
@@ -121,6 +121,7 @@ Kit.prototype.cadastraSituacaoKit = async (req, res) => {
                 result.data = res;
                 result.msg = true;
                 resolve(result);
+                console.log(result)
             }
         })
         .catch((err) => {
@@ -208,11 +209,11 @@ Kit.prototype.alteraKit = async (req, res) => {
 
 Kit.prototype.excluiKit = async (req, res) => {
     return new Promise((resolve, reject) => {
-        const idKit = req.body.IdKit;
+        const idKit = req.params.IdKit;
         pgPool(`
             DELETE FROM kits
             WHERE
-                idKit = ${idKit}
+                idkit = ${idKit}
         `)
         .then((res) => {
             const result = {};
@@ -243,8 +244,8 @@ Kit.prototype.excluiProdutoKit = async (req, res) => {
         pgPool(`
             DELETE FROM produtos_kit 
             WHERE
-                idKit = ${idKit}
-                AND idProduto = ${idProduto}
+                idkit = ${idKit}
+                AND idproduto = ${idProduto}
         `)
         .then((res) => {
             const result = {};
@@ -261,7 +262,8 @@ Kit.prototype.excluiProdutoKit = async (req, res) => {
                 hint: "Erro interno",
                 msg: false,
                 error: err,
-            }
+            };
+            reject(result);
         })
     })
 }

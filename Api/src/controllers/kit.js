@@ -94,6 +94,7 @@ class KitController {
                 res.status(200).send(resultado)
             })
             .catch((err) => {
+                console.log(err);
                 res.status(500).send(err)
             })
     }
@@ -102,7 +103,7 @@ class KitController {
         const kitModel = new Kit();
 
         await kitModel
-            .excluiKit(req)
+            .excluiProdutoKit(req)
             .then((resultado) => {
                 res.status(200).send(resultado)
             })

@@ -1,5 +1,5 @@
 import express from "express";
-import KitController from "../controllers/kit";
+import KitController from "../controllers/kit.js";
 
 const router = express.Router()
 
@@ -7,10 +7,10 @@ const router = express.Router()
         .get('/listaKit', KitController.listagemDeKits)
         .get('/consultaKit/:Kit', KitController.consultaDeKit)
         .post('/cadastraKit', KitController.cadastroDeKit)
-        .post('/cadastraSituacaoProduto', KitController.cadastroDeSituacoesKit)
+        .post('/cadastraSituacaoKit', KitController.cadastroDeSituacoesKit)
         .post('/associaProdutoKit', KitController.associacaoProdutoKit)
         .put('/alteraKit/:IdKit', KitController.alteracaoDeKit)
         .delete('/excluiKit/:IdKit', KitController.exclusaoDeKit)
-        .delete('/excluiProdutoDoKit', KitController.exclusaoProdutoDoKit)
+        .delete('/excluiProdutoDoKit/:IdKit/:IdProduto', KitController.exclusaoProdutoDoKit)
         
 export default router;
