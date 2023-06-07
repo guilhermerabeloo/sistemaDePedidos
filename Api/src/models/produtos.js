@@ -104,38 +104,67 @@ Produto.prototype.consultaIngredientesProduto = async (req, res) => {
 
 Produto.prototype.cadastraProduto = async (req, res) => {
     return new Promise((resolve, reject) => {
+        const produto = req.body.Produto;
+        const categoria = req.body.Categoria;
+        const preco = req.body.Preco;
+        const ingredientes = req.body.Ingredientes;
+        let idProduto;
+
+    // 1 - Criacao do produto
         pgPool(
             `
             INSERT INTO produtos
                 (produto, idcategoria)
             VALUES
-                ($1, $2)
-            `,
-            [
-                req.body.produto,
-                req.body.idcategoria,
-            ]
+                ('${produto}', ${categoria})
+            RETURNING idproduto
+            `
         )
-            .then((res) => {
-                const result = [];
-                if (res) {
-                    result.code = 200;
-                    result.data = "Produto cadastrado com sucesso!"
-                    result.msg = true;
-                    resolve(result);
-                }
-            })
-            .catch((err) => {
-                console.log(err)
-                const result = {
-                    hint: 'Erro interno',
-                    code: 500,
-                    msg: false,
-                    error: err,
-                }
-                reject(result)
-            })
-    })
+        .then((res) => {
+            idProduto = res.rows[0].idproduto
+
+            return pgPool(
+                `
+                INSERT INTO sit_produtos
+                    (dataSituacao, preco, idProduto)
+                VALUES
+                    ('20230606', ${preco}, ${idProduto})
+                `
+            )
+        })
+        .then(() => {
+            const promisesIngredientes = ingredientes.map((ingrediente) => {
+                pgPool(
+                    `
+                    INSERT INTO ingrediente_produto
+                    VALUES
+                        (${idProduto}, ${ingrediente})
+                    `
+                )
+            });
+            
+            return Promise.all(promisesIngredientes)
+        })
+        .then((res) => {
+            const result = [];
+            if (res) {
+                result.code = 200;
+                result.data = "Produto cadastrado com sucesso!"
+                result.msg = true;
+                resolve(result);
+            };
+        })
+        .catch((err) => {
+            console.log(err)
+            const result = {
+                hint: 'Erro interno',
+                code: 500,
+                msg: false,
+                error: err,
+            };
+            reject(result);
+        });
+    });
 }
 
 Produto.prototype.alteraProduto = (req, res) => {
