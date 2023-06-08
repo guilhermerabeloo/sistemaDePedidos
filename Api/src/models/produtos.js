@@ -1,6 +1,16 @@
-import pgPool from "../../config/pgPool.js"
+import pgPool from "../../config/pgPool.js";
 
 function Produto() {}
+
+function dataFormatada() {
+    const date = new Date();
+    const mes = date.getMonth() < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
+    const dia = date.getDate() < 10 ? '0' + (date.getDate() + 1) : date.getDate() + 1;
+
+    const data = `${date.getFullYear()}${mes}${dia}`;
+
+    return data
+}
 
 Produto.prototype.listaProdutos = async (req) => {
     return new Promise((resolve, reject) => {
@@ -128,7 +138,7 @@ Produto.prototype.cadastraProduto = async (req, res) => {
                 INSERT INTO sit_produtos
                     (dataSituacao, preco, idProduto)
                 VALUES
-                    ('20230606', ${preco}, ${idProduto})
+                    ('${dataFormatada()}', ${preco}, ${idProduto})
                 `
             )
         })
@@ -248,7 +258,7 @@ Produto.prototype.cadastraSituacaoProduto = async (req, res) => {
             INSERT INTO sit_produtos
                 (dataSituacao, preco, idProduto)
             VALUES
-                ($1, $2, $3)
+                (${dataFormatada()}, $2, $3)
             `
             , 
             [
