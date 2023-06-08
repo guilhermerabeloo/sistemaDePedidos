@@ -39,6 +39,32 @@ Produto.prototype.listaProdutos = async (req) => {
         })
     }
 
+Produto.prototype.listaIngredientes = async (req) => {
+    return new Promise((resolve, reject) => {
+        pgPool(
+            `SELECT * FROM ingredientes`
+        )
+        .then((res) => {
+            const result = {} 
+            if(res) {
+                result.code = 200;
+                result.status = true;
+                result.data = res.rows;
+                resolve(result);
+            };
+        })
+        .catch((err) => {
+            const result = {
+                code: 500,
+                hint: 'Erro interno',
+                msg: false,
+                error: err.stack,
+            };
+            reject(result);
+        })
+    })
+}
+
 Produto.prototype.consultaProduto = async (req, res) => {
     return new Promise((resolve, reject) => {
         const idProduto = req.params.Id;
