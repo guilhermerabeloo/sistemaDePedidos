@@ -5,7 +5,7 @@ function Produto() {}
 function dataFormatada() {
     const date = new Date();
     const mes = date.getMonth() < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
-    const dia = date.getDate() < 10 ? '0' + (date.getDate() + 1) : date.getDate() + 1;
+    const dia = date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate();
 
     const data = `${date.getFullYear()}${mes}${dia}`;
 
@@ -15,7 +15,18 @@ function dataFormatada() {
 Produto.prototype.listaProdutos = async (req) => {
     return new Promise((resolve, reject) => {
         pgPool(
-            'SELECT * FROM produtos'
+            `
+            SELECT 
+                p.idproduto,
+                p.produto,
+                p.idcategoria,
+                c.categoria,
+                sp.preco 
+            FROM produtos p
+            LEFT JOIN sit_produtos sp ON sp.idproduto = p.idproduto
+            LEFT JOIN categorias c ON p.idcategoria = c.idcategoria 
+            ORDER BY p.produto
+            `
         )
         .then((res) => {
             const result = {};
