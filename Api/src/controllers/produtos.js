@@ -15,6 +15,20 @@ class ProdutoController {
             })
     }
 
+    static listagemDeCategorias = async (req, res) => {
+        const categoriaModel = new Produto();
+
+        await categoriaModel
+            .listaCategorias(req)
+            .then((resultado) => {
+                res.status(200).send(resultado);
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500).send(err);
+            })
+    }
+
     static listagemDeIngredientes = async (req, res) => {
         const produtoModel = new Produto();
 

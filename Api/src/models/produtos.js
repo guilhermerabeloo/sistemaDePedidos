@@ -50,6 +50,34 @@ Produto.prototype.listaProdutos = async (req) => {
         })
     }
 
+Produto.prototype.listaCategorias = async (req) => {
+    return new Promise((resolve, reject) => {
+        pgPool(`
+            SELECT * FROM categorias
+        `)
+        .then((res) => {
+            const result = {};
+            if(res) {
+                result.code = 200;
+                result.msg = true;
+                result.data = res.rows;
+            };
+
+            resolve(result);
+        })
+        .catch((err) => {
+            const result = {
+                code: 500,
+                hint: 'Erro interno',
+                msg: false,
+                error: err,
+            };
+
+            reject(result);
+        })
+    })
+}
+
 Produto.prototype.listaIngredientes = async (req) => {
     return new Promise((resolve, reject) => {
         pgPool(
