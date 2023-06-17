@@ -195,6 +195,7 @@ Produto.prototype.cadastraProduto = async (req, res) => {
             RETURNING idproduto
             `
         )
+    // 2- Criando a situacao do produto
         .then((res) => {
             idProduto = res.rows[0].idproduto
 
@@ -207,6 +208,7 @@ Produto.prototype.cadastraProduto = async (req, res) => {
                 `
             )
         })
+    // 3 - Cadastrando os ingredientes do produto
         .then(() => {
             const promisesIngredientes = ingredientes.map((ingrediente) => {
                 pgPool(
@@ -409,12 +411,78 @@ Produto.prototype.associaIngrediente = async(req, res) => {
                 resolve(result)
             }
         })
-        .catch((res) => {
+        .catch((err) => {
             const result = {
-                hint: "Erro interno",
                 code: 500,
+                hint: "Erro interno",
                 msg: false,
+                error: err,
             };
+            reject(result);
+        })
+    })
+}
+
+Produto.prototype.excluiProduto = async (req) => {
+    const idProduto = req.params.IdProduto;
+    return new Promise((resolve, reject) => {
+
+        const deleteIngredientes = () => {
+            return new Promise((resolve, reject) => {
+                pgPool(
+                `
+                    DELETE FROM ingrediente_produto
+                    WHERE
+                        idproduto = ${idProduto}
+                `)
+                .then(() => resolve())
+                .catch((err) => reject(err));
+            });
+        };
+
+        const deleteSituacao = () => {
+            return new Promise((resolve, reject) => {
+                pgPool(`
+                    DELETE FROM sit_produtos
+                    WHERE
+                        idproduto = ${idProduto}
+                `)
+                .then(() => resolve())
+                .catch((err) => reject(err));
+            });
+        };
+
+        const deleteProduto = () => {
+            return new Promise((resolve, reject) => {
+                pgPool(`
+                    DELETE FROM produtos
+                    WHERE
+                        idproduto = ${idProduto}
+                `)
+                .then(() => resolve())
+                .catch((err) => reject(err));
+            });
+        };
+
+        Promise.all([deleteIngredientes(), deleteSituacao(), deleteProduto()])
+        .then((res) => {
+            const result = {};
+            if(res) {
+                result.code = 200;
+                result.msg = true;
+                result.data = res;
+            }; 
+
+            resolve(result);
+        })
+        .catch((err) => {
+            const result = {
+                code: 500,
+                hint: 'Erro interno',
+                msg: false,
+                error: err,
+            };
+
             reject(result);
         })
     })

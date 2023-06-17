@@ -15,6 +15,7 @@ router
     .post("/cadastraIngrediente", ProdutoController.cadastrarIngrediente)
     .post("/associaIngrediente/:idProduto/:idIngrediente", ProdutoController.relacionarIngredienteProduto)
     .put("/alteraProduto/:Id", ProdutoController.alteracaoDeProduto)
+    .delete("/excluiProduto/:IdProduto", ProdutoController.exclusaoDeProduto)
     .delete("/excluiIngredienteProduto/:IdProduto/:IdIngrediente", ProdutoController.exclusaoDeIngredienteDoProduto)
 
 export default router;
