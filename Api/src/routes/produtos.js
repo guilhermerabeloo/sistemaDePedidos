@@ -13,9 +13,9 @@ router
     .post("/cadastraCategoria", ProdutoController.cadastroDeCategorias)
     .post("/cadastraSituacaoProduto", ProdutoController.cadastroDeSituacoesProduto)
     .post("/cadastraIngrediente", ProdutoController.cadastrarIngrediente)
-    .post("/associaIngrediente/:idProduto/:idIngrediente", ProdutoController.relacionarIngredienteProduto)
+    .post("/associaIngrediente/:idProduto", ProdutoController.relacionarIngredienteProduto)
+    .post("/excluiIngredienteProduto/:IdProduto", ProdutoController.exclusaoDeIngredienteDoProduto)
     .put("/alteraProduto/:Id", ProdutoController.alteracaoDeProduto)
     .delete("/excluiProduto/:IdProduto", ProdutoController.exclusaoDeProduto)
-    .delete("/excluiIngredienteProduto/:IdProduto/:IdIngrediente", ProdutoController.exclusaoDeIngredienteDoProduto)
 
 export default router;

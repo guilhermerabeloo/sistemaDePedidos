@@ -23,7 +23,7 @@ Produto.prototype.listaProdutos = async (req) => {
                 c.categoria,
                 sp.preco 
             FROM produtos p
-            LEFT JOIN sit_produtos sp ON sp.idproduto = p.idproduto
+            LEFT JOIN sit_produtos sp ON sp.idproduto = p.idproduto AND sp.idsituacao  = (SELECT MAX(sp2.idsituacao) FROM sit_produtos sp2 WHERE sp.idproduto  = sp2.idproduto)
             LEFT JOIN categorias c ON p.idcategoria = c.idcategoria 
             ORDER BY p.produto
             `
@@ -38,13 +38,13 @@ Produto.prototype.listaProdutos = async (req) => {
             }
         })
         .catch((err) => {
-            console.log(err)
             const result = {
                 hint: 'Erro interno',
                 code: 500,
                 msg: false,
                 error: err,
             };
+            console.log(err)
             reject(result)
         })
         })
@@ -149,6 +149,7 @@ Produto.prototype.consultaIngredientesProduto = async (req, res) => {
         SELECT 
             p.idproduto 
             , p.produto 
+            , i.idingrediente
             , i.ingrediente 
         FROM produtos p 
         LEFT JOIN ingrediente_produto ip ON ip.idproduto  = p.idproduto 
@@ -246,14 +247,15 @@ Produto.prototype.cadastraProduto = async (req, res) => {
 
 Produto.prototype.alteraProduto = (req, res) => {
     return new Promise((resolve, reject) => {
-        const idProduto = req.params.Id
+        const idProduto = req.params.Id;
+
         pgPool(`
-        UPDATE produtos 
-        SET 
-            produto = $1,
-            idcategoria = $2
-        WHERE
-            idproduto = ${idProduto}
+            UPDATE produtos 
+            SET 
+                produto = $1,
+                idcategoria = $2
+            WHERE
+                idproduto = ${idProduto}
         `,
         [
             req.body.Produto,
@@ -262,13 +264,12 @@ Produto.prototype.alteraProduto = (req, res) => {
         )
         .then((res) => {
             const result = {};
-
             if(res) {
                 result.code = 200;
                 result.data = res;
                 result.msg = true;
                 resolve(result);
-            }
+            };
         })
         .catch((err) => {
             const result = {
@@ -277,10 +278,11 @@ Produto.prototype.alteraProduto = (req, res) => {
                 msg: false,
                 error: err,
             };
+            console.log(err)
             reject(result);
-        })
-    })
-}
+        });
+    });
+};
 
 Produto.prototype.cadastraCategoria = async (req, res) => {
     return new Promise((resolve, reject) => {
@@ -306,14 +308,14 @@ Produto.prototype.cadastraCategoria = async (req, res) => {
             }
         })
         .catch((err) => {
-            console.log(err);
             const result = {
                 hint: "Erro interno",
                 code: 500,
                 msg: false,
                 error: err,
             }
-            reject(result)
+            console.log(err);
+            reject(result);
         })
     })
 }
@@ -323,13 +325,12 @@ Produto.prototype.cadastraSituacaoProduto = async (req, res) => {
         pgPool(
             `
             INSERT INTO sit_produtos
-                (dataSituacao, preco, idProduto)
+                (dataSituacao, preco, idproduto)
             VALUES
-                (${dataFormatada()}, $2, $3)
+                ('${dataFormatada()}', $1, $2)
             `
             , 
             [
-                req.body.Data,
                 req.body.Preco,
                 req.body.IdProduto,
             ]
@@ -392,16 +393,19 @@ Produto.prototype.cadastraIngrediente = async(req, res) => {
 
 Produto.prototype.associaIngrediente = async(req, res) => {
     const idProduto = req.params.idProduto;
-    const idIngrediente = req.params.idIngrediente;
-
+    const idIngredientes = req.body.Ingredientes;
     return new Promise((resolve, reject) => {
-        pgPool(
-            `
-            INSERT INTO ingrediente_produto
-            VALUES
-                (${idProduto}, ${idIngrediente})
-            `
-        )
+        const promisesIngredientes = idIngredientes.map((ingrediente) => {
+            return pgPool(
+                `
+                INSERT INTO ingrediente_produto
+                VALUES
+                    (${idProduto}, ${ingrediente})
+                `
+            )
+        })
+
+        return Promise.all(promisesIngredientes)
         .then((res) => {
             const result = {};
             if (res) {
@@ -489,16 +493,21 @@ Produto.prototype.excluiProduto = async (req) => {
 }
 
 Produto.prototype.excluiIngredienteProduto = async (req, res) => {
-    return new Promise((resolve, reject) => {
-        const idProduto = req.params.IdProduto;
-        const idIngrediente = req.params.IdIngrediente;
+    const idProduto = req.params.IdProduto;
+    const idIngredientes = req.body.Ingredientes;
 
-        pgPool(`
-        DELETE FROM ingrediente_produto 
-        WHERE 
-            idproduto = ${idProduto}
-            AND idingrediente = ${idIngrediente}
-        `)
+    return new Promise((resolve, reject) => {
+        const promisesIngredientes = idIngredientes.map((ingrediente) => {
+            return pgPool(`
+                DELETE FROM ingrediente_produto 
+                WHERE 
+                    idproduto = ${idProduto}
+                    AND idingrediente = ${ingrediente}
+            `)
+
+        })
+        return Promise.all(promisesIngredientes)
+        
         .then((res) => {
             const result = {};
             if(res) {
