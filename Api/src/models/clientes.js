@@ -5,7 +5,21 @@ function Cliente() {}
 Cliente.prototype.listaClientes = async (req, res) => {
     return new Promise((resolve, reject) => {
         pgPool(
-            'SELECT * FROM clientes'
+            `
+            SELECT 
+                C.idcliente 
+                , C.cliente 
+                , C.telefone 
+                , C.endereco 
+                , C.numero 
+                , B.bairro 
+                , C.datacadastro 
+                , C.dataatualizacao 
+                , C.sexo 
+                , TO_CHAR(C.dtnascimento, 'DD/MM/YYYY') AS dtnascimento 
+            FROM clientes AS C
+            INNER JOIN bairros AS B ON B.idbairro  = C.idbairro
+            `
         )
         .then((res) => {
             const result = {};
@@ -205,13 +219,13 @@ Cliente.prototype.listaBairros = async (req, res) => {
             const result = {};
             if(res) {
                 result.code = 200;
-                result.data = req.rows;
+                result.data = res.rows;
                 result.msg = true;
                 resolve(result)
             };
         })
-        .catch((req) => {
-            const result = {
+        .catch((err) => {
+            const result =   {
                 hint: "Erro interno",
                 code: 200,
                 msg: false,

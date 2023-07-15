@@ -1,12 +1,12 @@
 import express from "express";
-import dotev from "dotenv";
+import dotenv from "dotenv";
 import pg from "pg";
 import routes from "./routes/index.js";
 import cors from 'cors';
 
 const { Pool } = pg
 
-dotev.config()
+dotenv.config()
 
 global.pg = new Pool({
     host: process.env.PG_HOST,
