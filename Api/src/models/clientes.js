@@ -21,7 +21,7 @@ Cliente.prototype.listaClientes = async (req, res) => {
                 , C.sexo 
                 , TO_CHAR(C.dtnascimento, 'DD/MM/YYYY') AS dtnascimento 
             FROM clientes AS C
-            INNER JOIN bairros AS B ON B.idbairro  = C.idbairro
+            LEFT JOIN bairros AS B ON B.idbairro = C.idbairro
             `
         )
         .then((res) => {
@@ -30,7 +30,6 @@ Cliente.prototype.listaClientes = async (req, res) => {
                 result.code = 200;
                 result.data = res.rows;
                 result.msg = true;
-                console.log(result);
                 resolve(result);
             }
         })
@@ -135,31 +134,33 @@ Cliente.prototype.cadastraCliente = async (req, res) => {
 Cliente.prototype.editarCliente = async (req, res) => {
     return new Promise((resolve, reject) => {
         const IdCliente = req.params.Id
+        console.log(IdCliente)
         pgPool(`
             UPDATE clientes 
             SET 
-                idcliente = $1,
-                cliente = $2,
-                telefone = $3,
+                cliente = $1,
+                telefone = $2,
+                dtnascimento = $3,
                 endereco = $4,
                 numero = $5,
                 idbairro = $6,
-                dataatualizacao = $7,
-                sexo = $8,
-                dtnascimento = $9
-                
+                complemento = $7,
+                pontodereferencia = $8,
+                sexo = $9,
+                dataatualizacao = $10
             WHERE idcliente = ${IdCliente}
         `,
         [
-            req.body.IdCliente,
             req.body.Cliente,
             req.body.Telefone,
+            req.body.DtNascimento,
             req.body.Endereco,
             req.body.Numero,
             req.body.IdBairro,
-            new Date,
+            req.body.Complemento,
+            req.body.PontoDeReferencia,
             req.body.Sexo,
-            req.body.DtNascimento,
+            new Date,
         ]
         )
         .then((res) => {
@@ -168,7 +169,6 @@ Cliente.prototype.editarCliente = async (req, res) => {
                 result.code = 200;
                 result.data = `Cliente de ID: ${IdCliente} alterado com sucesso!`;
                 result.msg = true;
-                console.log(result);
                 resolve(result);
             }
         })
@@ -199,7 +199,6 @@ Cliente.prototype.excluirCliente = async (req, res) => {
                 result.code = 200;
                 result.data = `Cliente de ID ${IdCliente} excluído com sucesso`;
                 result.msg = true;
-                console.log(result);
                 resolve(result);
             }
         })
@@ -330,7 +329,6 @@ Cliente.prototype.excluirBairro = async (req, res) => {
                 result.code = 200;
                 result.data = `Bairro de ID ${idBairro} excluído com sucesso`;
                 result.msg = true;
-                console.log(result);
                 resolve(result);
             }
         })
