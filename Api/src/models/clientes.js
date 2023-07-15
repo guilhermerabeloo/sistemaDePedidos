@@ -12,7 +12,10 @@ Cliente.prototype.listaClientes = async (req, res) => {
                 , C.telefone 
                 , C.endereco 
                 , C.numero 
+                , B.idbairro
                 , B.bairro 
+                , C.complemento
+                , C.pontoDeReferencia
                 , C.datacadastro 
                 , C.dataatualizacao 
                 , C.sexo 
@@ -101,6 +104,8 @@ Cliente.prototype.cadastraCliente = async (req, res) => {
             req.body.Endereco,
             req.body.Numero,
             req.body.IdBairro,
+            req.body.Complemento,
+            req.body.PontoDeReferencia,
             new Date,
             req.body.Sexo,
             req.body.DtNascimento,
