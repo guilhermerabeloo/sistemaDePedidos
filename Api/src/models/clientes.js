@@ -2,6 +2,16 @@ import pgPool from "../../config/pgPool.js";
 
 function Cliente() {}
 
+function dataFormatada() {
+    const date = new Date();
+    const mes = date.getMonth() < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
+    const dia = date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate();
+
+    const data = `${date.getFullYear()}${mes}${dia}`;
+
+    return data
+}
+
 Cliente.prototype.listaClientes = async (req, res) => {
     return new Promise((resolve, reject) => {
         pgPool(
@@ -93,9 +103,9 @@ Cliente.prototype.cadastraCliente = async (req, res) => {
     return new Promise((resolve, reject) => {
         pgPool(`
             INSERT INTO clientes
-            (cliente, telefone, endereco, numero, idBairro, dataCadastro, sexo, dtNascimento)
+            (cliente, telefone, endereco, numero, idBairro, complemento, pontodereferencia, dataCadastro, sexo, dtNascimento)
             VALUES
-            ($1, $2, $3, $4, $5, $6, $7, $8)
+            ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
         `,
         [
             req.body.Cliente,
@@ -105,7 +115,7 @@ Cliente.prototype.cadastraCliente = async (req, res) => {
             req.body.IdBairro,
             req.body.Complemento,
             req.body.PontoDeReferencia,
-            new Date,
+            dataFormatada(),
             req.body.Sexo,
             req.body.DtNascimento,
         ]
@@ -125,6 +135,7 @@ Cliente.prototype.cadastraCliente = async (req, res) => {
                 hint: "Erro interno",
                 code: 500,
                 msg: false,
+                error: err,
             };
             reject(result);
         })
@@ -187,10 +198,11 @@ Cliente.prototype.editarCliente = async (req, res) => {
 Cliente.prototype.excluirCliente = async (req, res) => {
     return new Promise((resolve, reject) => {
         const IdCliente = req.params.Id
+        console.log(IdCliente)
         pgPool(`
             DELETE FROM clientes
             WHERE
-                idCliente = ${IdCliente}
+                idcliente = ${IdCliente}
         `
         )
         .then((res) => {
