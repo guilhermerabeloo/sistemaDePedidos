@@ -43,6 +43,20 @@ class ProdutoController {
             })
     }
 
+    static listagemDeAdicionais = async (req, res) => {
+        const produtoModel = new Produto();
+
+        await produtoModel
+            .listaAdicionais(req)
+            .then((resultado) => {
+                res.status(200).send(resultado)
+            })
+            .catch((err) => {
+                console.log(err);
+                res.status(500).send(err)
+            })
+    }
+
     static consultaDeProduto = async (req, res) => {
         const produtoModel = new Produto();
 
@@ -53,7 +67,7 @@ class ProdutoController {
             })
             .catch((err) => {
                 console.log(err)
-                res.status(500).send(resultado)
+                res.status(500).send(err)
             })
     }
 
@@ -67,7 +81,7 @@ class ProdutoController {
             })
             .catch((err) => {
                 console.log(err);
-                res.status(500).send(resultado)
+                res.status(500).send(err)
             })
     }
 
