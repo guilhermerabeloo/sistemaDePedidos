@@ -21,6 +21,7 @@ Produto.prototype.listaProdutos = async (req) => {
                 p.produto,
                 p.idcategoria,
                 c.categoria,
+                c.sigla,
                 sp.preco 
             FROM produtos p
             LEFT JOIN sit_produtos sp ON sp.idproduto = p.idproduto AND sp.idsituacao  = (SELECT MAX(sp2.idsituacao) FROM sit_produtos sp2 WHERE sp.idproduto  = sp2.idproduto)
