@@ -8,6 +8,7 @@ router
     .get("/ingredientes", ProdutoController.listagemDeIngredientes)
     .get("/categorias", ProdutoController.listagemDeCategorias)
     .get("/adicionais", ProdutoController.listagemDeAdicionais)
+    .get("/bordas", ProdutoController.listagemDeBordas)
     .get("/consultaProduto/:Id", ProdutoController.consultaDeProduto)
     .get("/consultaIngredientesProduto/:IdProduto", ProdutoController.consultaDeIngredientesProduto)
     .post("/cadastraProduto", ProdutoController.cadastroDeProdutos)

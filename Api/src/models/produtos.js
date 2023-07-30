@@ -134,6 +134,36 @@ Produto.prototype.listaAdicionais = async (req, res) => {
     })
 }
 
+Produto.prototype.listaBordas = async (req, res) => {
+    return new Promise((resolve, reject) => {
+        pgPool(
+            `SELECT * FROM bordas`
+        )
+        .then((res) => {
+            const result = {};
+
+            if(res) {
+                result.code = 200;
+                result.msg = true;
+                result.data = res.rows;
+
+                resolve(result);
+            }
+        })
+        .catch((err) => {
+            const result = {
+                code: 500,
+                hint: 'Erro interno',
+                msg: false,
+                error: err.stack,
+            };
+            console.log(err)
+
+            reject(result);
+        })
+    })
+}
+
 Produto.prototype.consultaProduto = async (req, res) => {
     return new Promise((resolve, reject) => {
         const idProduto = req.params.Id;
