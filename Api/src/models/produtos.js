@@ -108,7 +108,7 @@ Produto.prototype.listaIngredientes = async (req) => {
 Produto.prototype.listaAdicionais = async (req, res) => {
     return new Promise((resolve, reject) => {
         pgPool(
-            `SELECT * FROM adicionaisItens`
+            `SELECT * FROM adicionaisItens ORDER BY adicional`
         )
         .then((res) => {
             const result = {};

@@ -186,7 +186,8 @@ CREATE TABLE item_pedido (
 	idItem SERIAL,
 	idPedido INTEGER NOT NULL,
 	idProduto INTEGER,
-	idKit INTEGER,
+	idKit INTEGER,	
+	idAdicional INTEGER,
 	qtde INTEGER NOT NULL,
 	valorUnitario NUMERIC(5,2) NOT NULL,
 	valorTotal NUMERIC(6,2) NOT NULL,
@@ -204,10 +205,49 @@ FOREIGN KEY (idProduto) REFERENCES produtos(idProduto)
 ALTER TABLE item_pedido ADD CONSTRAINT FK_itemPedido_kit
 FOREIGN KEY (idKit) REFERENCES kits(idKit)
 
+ALTER TABLE item_pedido ADD CONSTRAINT FK_itemPedido_adicional
+FOREIGN KEY (idadicional) REFERENCES adicional_pedido(idadicionalpedido)
+
+ALTER TABLE item_pedido ADD CONSTRAINT FK_itemPedido_borda
+FOREIGN KEY (idborda) REFERENCES bordas(idborda)
 
 
+CREATE TABLE adicionaisItens (
+	idadicional SERIAL,
+	adicional VARCHAR(100) UNIQUE NOT NULL,
+	vl_pizza NUMERIC(4,2),
+	vl_esfiha NUMERIC(4,2),
+	vl_beirute NUMERIC(4,2),
+	vl_pastel NUMERIC(4,2),
+	vl_geral NUMERIC(4,2),
+	
+	PRIMARY KEY(idadicional)
+) 
 
+CREATE TABLE adicional_pedido (
+	idadicionalpedido SERIAL,
+	idadicional INT NOT NULL,
+	idproduto INT,
+	idcategoria INT,
+	
+	PRIMARY KEY (idadicionalpedido)
+)
 
+CREATE TABLE bordas(
+	idborda SERIAL,
+	borda VARCHAR(25) NOT NULL,
+	valor NUMERIC(4,2) NOT NULL,
+	PRIMARY KEY(idborda)
+)
+
+ALTER TABLE adicional_pedido ADD CONSTRAINT Fk_adicionalpedido_adicional
+FOREIGN KEY (idadicional) REFERENCES adicionaisItens(idadicional)
+
+ALTER TABLE adicional_pedido ADD CONSTRAINT Fk_adicionalpedido_produto
+FOREIGN KEY (idproduto) REFERENCES produtos(idproduto)
+
+ALTER TABLE adicional_pedido ADD CONSTRAINT Fk_adicionalpedido_categoria
+FOREIGN KEY (idcategoria) REFERENCES categorias(idcategoria)
 
 
 
